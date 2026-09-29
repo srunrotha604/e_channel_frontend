@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import EyeIcon from '../../../../components/Icons/EyeIcon';
 import EyeOffIcon from '../../../../components/Icons/EyeOffIcon';
+import { useAuth } from '../../../../context/AuthContext';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import {
   changePassword,
@@ -31,6 +32,7 @@ const ChangePasswordPage = () => {
     newPassword: false,
     confirmPassword: false,
   });
+  const { setPasswordStaus } = useAuth();
   const toggleEye = (key: keyof typeof show) =>
     setShow((s) => ({ ...s, [key]: !s[key] }));
   const {
@@ -40,7 +42,7 @@ const ChangePasswordPage = () => {
     formState: { errors },
   } = useForm<ChangePasswordFormValues>({ mode: 'onChange' });
   const newPasswordValue = watch('newPassword') ?? '';
-  useRequest(fetchCurrentUserProfile, {
+  const { refresh: refreshProfile } = useRequest(fetchCurrentUserProfile, {
     onSuccess: (res) => {
       switch (res?.status) {
         case 200:
@@ -48,6 +50,7 @@ const ChangePasswordPage = () => {
             const profile = res?.data?.userProfile;
             setUserUrl(profile?.avatarUrl ?? '');
             setUserName(`${profile.firstName} ${profile.lastName}` || '');
+            setPasswordStaus(res.data.passwordStatus);
           }
           break;
         case 400:
@@ -66,6 +69,7 @@ const ChangePasswordPage = () => {
     onSuccess: (res) => {
       switch (res?.status) {
         case 200: {
+          refreshProfile();
           toast.success(res?.data?.message ?? 'Password changed successfully', {
             autoClose: 50,
             pauseOnHover: false,

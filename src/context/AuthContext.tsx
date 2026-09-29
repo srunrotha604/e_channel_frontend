@@ -9,6 +9,7 @@ import type {
   Company,
   MenuItem,
   Module,
+  PasswordChangeStatus,
   Profile,
   UserProfileNew,
   Version,
@@ -44,6 +45,8 @@ const AuthContext = createContext<AuthContextValue>({
   mode: '',
   application: null,
   version: null,
+  passwordStatus: null,
+  setPasswordStaus: () => null,
 });
 
 interface PermissionAccessResponse extends PermissionSet {
@@ -74,6 +77,8 @@ const AuthContextProvider = ({ children }: { children?: ReactNode }) => {
   const [module, setModule] = useState<Module[] | null>(null);
   const [application, setApplication] = useState<Application | null>(null);
   const [version, setVersion] = useState<Version | null>(null);
+  const [passwordStatus, setPasswordStaus] =
+    useState<PasswordChangeStatus | null>(null);
   const hasPermissionProccessTransaction = (
     execution: string | string[],
     condition: 'and' | 'or' = 'and'
@@ -145,6 +150,7 @@ const AuthContextProvider = ({ children }: { children?: ReactNode }) => {
       setApplication(tempApplication ?? null);
       setPermission(responsePermission?.data ?? null);
       setMode(responseUser?.data?.mode ?? '');
+      setPasswordStaus(responseUser?.data.passwordStatus ?? null);
       startSessionStream();
     } catch (error) {
       setLoading(false);
@@ -194,6 +200,8 @@ const AuthContextProvider = ({ children }: { children?: ReactNode }) => {
         token,
         application,
         version,
+        passwordStatus,
+        setPasswordStaus,
       }}
     >
       <ModuleContextProvider

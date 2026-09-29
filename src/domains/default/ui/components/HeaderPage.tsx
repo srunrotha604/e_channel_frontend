@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { IoWarningOutline } from 'react-icons/io5';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import companyLogo from '../../../../assets/DaraInsurancePlc.png';
 import userIcon from '../../../../assets/default-user.png';
 import companyLogoFull from '../../../../assets/logo-full.jpg';
@@ -8,14 +9,34 @@ import { ROUTE_PATH } from '../../../../utils/route-util';
 import NotificationBell from '../../../notification/ui/components/NotificationBell';
 import { performLogout } from '../../use-cases';
 const HeaderPage = () => {
-  const { user, clearUser, mode, application } = useAuth();
+  const { user, clearUser, mode, application, passwordStatus } = useAuth();
   const signOut = () => {
     performLogout(clearUser);
   };
   const location = useLocation();
   const isAuthenticatePage = !location.pathname.includes(ROUTE_PATH.dashboard);
+  const route = useNavigate();
   return (
     <header className="sticky-top navbar-expand-lg  d-print-none">
+      {passwordStatus?.expiringSoon && (
+        <div className="bg-warning">
+          <div className="container-xl d-flex p-2 justify-content-center align-items-center gap-3">
+            <div className="w-4 h-4 bg-danger p-2 text-light d-flex justify-content-center align-items-center rounded-5">
+              <IoWarningOutline />
+            </div>
+            <div className="text-light fw-bold text-center d-flex justify-content-center align-items-center flex-grow-1">
+              {passwordStatus?.message || 'Consider changing your password.'}
+            </div>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => route(ROUTE_PATH.changePassword)}
+            >
+              Change Password
+            </button>
+          </div>
+        </div>
+      )}
       <div className="navbar navbar-light">
         <div className="container-xl">
           <button

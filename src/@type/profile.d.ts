@@ -13,6 +13,7 @@ export interface Profile {
   module: Module[];
   processAccess: ProcessAccess;
   productAuthorizedLimits: ProductAuthorizedLimits;
+  passwordStatus: PasswordChangeStatus;
 }
 
 export interface UserProfileNew {
@@ -36,8 +37,17 @@ export interface ResProfile {
   module: Module[];
   processAccess: ProcessAccess;
   productAuthorizedLimits: ProductAuthorizedLimits;
+  passwordStatus: PasswordChangeStatus;
 }
-
+export interface PasswordChangeStatus {
+  passwordExpirationDays: number;
+  passwordChangedDate: string;
+  passwordExpirationDate: string;
+  daysRemaining: number;
+  expired: boolean;
+  expiringSoon: boolean;
+  message: string;
+}
 export interface UserProfile {
   username: string;
   firstName: string;

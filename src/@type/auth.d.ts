@@ -1,8 +1,10 @@
+import { Dispatch, SetStateAction } from 'react';
 import type {
   Application,
   Branch,
   Company,
   Module,
+  PasswordChangeStatus,
   UserProfileNew,
   Version,
 } from './profile';
@@ -34,6 +36,7 @@ export interface AuthContextValue {
   ) => boolean;
   clearUser: () => void;
   fetchUser: () => Promise<void>;
+  setPasswordStaus: Dispatch<SetStateAction<PasswordChangeStatus | null>>;
   user: UserProfileNew | null;
   isUserDRIAdmin: boolean;
   appName: string;
@@ -47,4 +50,5 @@ export interface AuthContextValue {
   mode: string;
   application: Application | null;
   version: Version | null;
+  passwordStatus: PasswordChangeStatus | null;
 }
