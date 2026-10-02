@@ -1,7 +1,6 @@
 import ReactPaginate from 'react-paginate';
 import NextIcon from '../Icons/NextIcon';
 import PreviousIcon from '../Icons/PreviousIcon';
-
 interface PaginationComponentProps {
   totalDocs?: number;
   pageNum?: number;
@@ -57,5 +56,4 @@ const PaginationComponent = (props: PaginationComponentProps) => {
     </>
   );
 };
-
 export default PaginationComponent;

@@ -21,5 +21,4 @@ const NextIcon = (props: { label: string }) => {
     </div>
   );
 };
-
 export default NextIcon;

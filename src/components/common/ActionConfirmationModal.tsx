@@ -1,7 +1,6 @@
 import type { ReactNode, RefObject } from 'react';
 import { useState } from 'react';
 import Modal from './modal';
-
 interface ActionConfirmationModalProps {
   modalRef: RefObject<HTMLDivElement>;
   isApprove: boolean | null;
@@ -12,7 +11,6 @@ interface ActionConfirmationModalProps {
   confirmText?: string;
   confirmMessageText?: ReactNode;
 }
-
 const ApproveRejectConfirmationModal = ({
   modalRef,
   isApprove,
@@ -24,7 +22,6 @@ const ApproveRejectConfirmationModal = ({
   confirmMessageText,
 }: ActionConfirmationModalProps) => {
   const [rejectRemark, setRejectRemark] = useState('');
-
   return (
     <Modal
       title={'Action Confirmation'}
@@ -83,5 +80,4 @@ const ApproveRejectConfirmationModal = ({
     />
   );
 };
-
 export default ApproveRejectConfirmationModal;

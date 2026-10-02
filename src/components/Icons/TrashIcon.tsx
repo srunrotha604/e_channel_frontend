@@ -21,5 +21,4 @@ const TrashIcon = () => {
     </svg>
   );
 };
-
 export default TrashIcon;

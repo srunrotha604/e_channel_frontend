@@ -1,6 +1,5 @@
 import type { MouseEventHandler, RefObject } from 'react';
 import Modal from './modal';
-
 interface ActionSaveDraftConfirmationModalProps {
   closeModal: () => void;
   modalRef: RefObject<HTMLDivElement>;
@@ -9,7 +8,6 @@ interface ActionSaveDraftConfirmationModalProps {
   confirm?: boolean;
   onConfirm?: MouseEventHandler<HTMLButtonElement>;
 }
-
 const ActionSaveDraftConfirmationModal = ({
   closeModal,
   modalRef,
@@ -43,5 +41,4 @@ const ActionSaveDraftConfirmationModal = ({
     />
   );
 };
-
 export default ActionSaveDraftConfirmationModal;

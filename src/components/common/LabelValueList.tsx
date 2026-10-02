@@ -1,17 +1,14 @@
 import type { ReactNode } from 'react';
 import { LabelValueItem } from './LabelValueItem';
-
 interface LabelValueListItem {
   label?: ReactNode;
   value?: ReactNode;
 }
-
 interface LabelValueListProps {
   list?: LabelValueListItem[];
   valueColorClassName?: string;
   columnClassName?: string;
 }
-
 const LabelValueList = ({
   list,
   valueColorClassName = '',
@@ -36,5 +33,4 @@ const LabelValueList = ({
     </div>
   );
 };
-
 export default LabelValueList;

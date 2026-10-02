@@ -3,7 +3,6 @@ import { Tooltip } from 'react-tooltip';
 import ArrowBackIcon from '../../Icons/ArrowBackIcon';
 import PlusIcon from '../../Icons/PlusIcon';
 import RefreshIcon from '../../Icons/RefreshIcon';
-
 interface HeaderTableComponentProps {
   title?: ReactNode;
   refreshOnClick?: () => void;
@@ -13,7 +12,6 @@ interface HeaderTableComponentProps {
   back?: () => void;
   multiRef?: ReactNode;
 }
-
 const HeaderTableComponent = (props: HeaderTableComponentProps) => {
   const {
     title,
@@ -111,5 +109,4 @@ const HeaderTableComponent = (props: HeaderTableComponentProps) => {
     </div>
   );
 };
-
 export default HeaderTableComponent;

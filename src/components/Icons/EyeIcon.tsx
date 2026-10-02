@@ -17,5 +17,4 @@ const EyeIcon = () => {
     </svg>
   );
 };
-
 export default EyeIcon;

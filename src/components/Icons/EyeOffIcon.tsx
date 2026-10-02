@@ -18,6 +18,4 @@ const EyeOffIcon = () => {
     </svg>
   );
 };
-
 export default EyeOffIcon;
-

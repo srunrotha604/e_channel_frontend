@@ -18,5 +18,4 @@ const CopyIcon = () => {
     </svg>
   );
 };
-
 export default CopyIcon;

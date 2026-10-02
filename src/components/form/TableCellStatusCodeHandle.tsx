@@ -1,10 +1,8 @@
 import { Tooltip } from 'react-tooltip';
-
 interface TableCellStatusCodeHandleProps {
   onClick?: () => void;
   status?: string;
 }
-
 const TableCellStatusCodeHandle = (props: TableCellStatusCodeHandleProps) => {
   const { onClick, status } = props;
   return (
@@ -27,5 +25,4 @@ const TableCellStatusCodeHandle = (props: TableCellStatusCodeHandleProps) => {
     </td>
   );
 };
-
 export default TableCellStatusCodeHandle;

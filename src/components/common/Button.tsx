@@ -1,13 +1,11 @@
 import clsx from 'clsx';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
-
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: string;
   size?: string;
   loading?: boolean;
   loadingText?: ReactNode;
 }
-
 const Button = ({
   variant = 'primary',
   size = undefined,
@@ -42,5 +40,4 @@ const Button = ({
     </button>
   );
 };
-
 export default Button;

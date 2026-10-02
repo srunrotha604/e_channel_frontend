@@ -16,5 +16,4 @@ const ArrowBackIcon = () => {
     </svg>
   );
 };
-
 export default ArrowBackIcon;

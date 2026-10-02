@@ -6,7 +6,6 @@ import ButtonGroup from '../../buttons/ButtonGroup';
 import CancelButton from '../../buttons/CancelButton';
 import SubmitButton from '../../buttons/SubmitButton';
 import Modal, { useModal } from '../../common/modal';
-
 interface TableCellTextDeleteConfirmProps {
   success: () => void;
   uuid?: string;
@@ -15,12 +14,10 @@ interface TableCellTextDeleteConfirmProps {
   message?: ReactNode;
   data?: unknown;
 }
-
 const TableCellTextDeleteConfirm = (props: TableCellTextDeleteConfirmProps) => {
   const { success, route, title, message, data } = props;
   const { modalRef, openModal, closeModal } = useModal();
   const { showErrorResponseMessage } = useMessage();
-
   const onSubmit = async () => {
     try {
       await HttpUtil.delete(route, data);
@@ -37,7 +34,6 @@ const TableCellTextDeleteConfirm = (props: TableCellTextDeleteConfirmProps) => {
         <label className="mb-3">{message}</label>
         <ButtonGroup>
           <SubmitButton tooltip="Submit" onClick={() => onSubmit()} />
-
           <CancelButton tooltip="Cancel" onClick={() => closeModal()} />
         </ButtonGroup>
       </Modal>
@@ -52,5 +48,4 @@ const TableCellTextDeleteConfirm = (props: TableCellTextDeleteConfirmProps) => {
     </>
   );
 };
-
 export default TableCellTextDeleteConfirm;

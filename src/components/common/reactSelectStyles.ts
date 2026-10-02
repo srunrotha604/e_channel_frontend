@@ -1,5 +1,4 @@
 import type { StylesConfig } from 'react-select';
-
 export const selectCustomStyles: StylesConfig<any, boolean> = {
   control: (provided) => ({
     ...provided,

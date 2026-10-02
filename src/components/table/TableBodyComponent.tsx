@@ -1,11 +1,9 @@
 import type { ReactNode } from 'react';
 import Loading from '../Loading';
-
 interface TableHeaderItem {
   name?: ReactNode;
   width?: number;
 }
-
 interface TableBodyComponentProps {
   children?: ReactNode;
   headerItems?: TableHeaderItem[];
@@ -13,7 +11,6 @@ interface TableBodyComponentProps {
   loading?: boolean;
   search?: ReactNode;
 }
-
 const TableBodyComponent = (props: TableBodyComponentProps) => {
   const { children, headerItems, pagination, loading, search } = props;
   return (
@@ -26,7 +23,6 @@ const TableBodyComponent = (props: TableBodyComponentProps) => {
         ) : (
           ''
         )}
-
         <div className="table-responsive">
           {loading && <Loading value={loading} />}
           {!loading ? (
@@ -60,5 +56,4 @@ const TableBodyComponent = (props: TableBodyComponentProps) => {
     </div>
   );
 };
-
 export default TableBodyComponent;

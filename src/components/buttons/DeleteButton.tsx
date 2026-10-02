@@ -1,13 +1,11 @@
 import { Tooltip } from 'react-tooltip';
 import CheckIcon from '../Icons/CheckIcon';
-
 interface DeleteButtonProps {
   onClick: () => void;
   tooltip?: string;
   disabled?: boolean;
   loading?: boolean;
 }
-
 const DeleteButton = (props: DeleteButtonProps) => {
   const { onClick, tooltip, disabled, loading } = props;
   return (
@@ -52,5 +50,4 @@ const DeleteButton = (props: DeleteButtonProps) => {
     </div>
   );
 };
-
 export default DeleteButton;

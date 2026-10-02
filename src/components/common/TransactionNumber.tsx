@@ -2,14 +2,12 @@ import clsx from 'clsx';
 import { MdContentCopy } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import { copyTextToClipboard } from '../../utils/copy-text-to-clipboard';
-
 interface TransactionNumberProps {
   transactionNumber?: string;
   label?: string;
   disableLabel?: boolean;
   disableGutter?: boolean;
 }
-
 const TransactionNumber = ({
   transactionNumber,
   label = 'Transaction No.',

@@ -1,20 +1,17 @@
 import { toast } from 'react-toastify';
 import useMessage from '../../../hooks/useMessage';
 import { HttpUtil } from '../../../utils/http-util';
-
 interface TableRowStatusComponentHandleProps {
   active?: boolean;
   success: () => void;
   uuid?: string;
   route: string;
 }
-
 const TableRowStatusComponentHandle = (
   props: TableRowStatusComponentHandleProps
 ) => {
   const { active, success, uuid, route } = props;
   const { showErrorResponseMessage } = useMessage();
-
   const onSubmit = async () => {
     try {
       const data = {
@@ -27,7 +24,6 @@ const TableRowStatusComponentHandle = (
       showErrorResponseMessage(error);
     }
   };
-
   return (
     <span
       className={`${
@@ -39,5 +35,4 @@ const TableRowStatusComponentHandle = (
     </span>
   );
 };
-
 export default TableRowStatusComponentHandle;

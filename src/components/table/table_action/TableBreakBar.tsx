@@ -10,5 +10,4 @@ const TableBreakBar = () => {
     </span>
   );
 };
-
 export default TableBreakBar;

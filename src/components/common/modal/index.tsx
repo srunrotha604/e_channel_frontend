@@ -1,13 +1,11 @@
 import clsx from 'clsx';
 import type { ReactNode } from 'react';
 import { forwardRef, useRef, useState } from 'react';
-
 const modalSize = {
   sm: 'modal-sm',
   lg: 'modal-lg',
   xl: 'modal-xl',
 };
-
 export interface ModalProps {
   title?: ReactNode;
   content?: ReactNode;
@@ -19,7 +17,6 @@ export interface ModalProps {
   headerClassName?: string;
   noTransition?: boolean;
 }
-
 // eslint-disable-next-line react/display-name
 const Modal = forwardRef<HTMLDivElement, ModalProps>(
   (
@@ -75,22 +72,18 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
     );
   }
 );
-
 export const useModal = <T = unknown,>() => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [data, setData] = useState<T | null>(null);
-
   const openModal = (data?: T) => {
     setData(data ?? null);
     setOpen(true);
-
     setTimeout(() => {
       const myModal = new bootstrap.Modal(modalRef.current);
       myModal.show();
-    }, 10); // wait for DOM to render
+    }, 10);
   };
-
   const closeModal = () => {
     setOpen(false);
 
@@ -98,7 +91,6 @@ export const useModal = <T = unknown,>() => {
     if (myModal) {
       myModal.hide();
     }
-
     const backdrop = document.querySelector('.modal-backdrop');
     if (backdrop) {
       backdrop.remove();
@@ -106,8 +98,6 @@ export const useModal = <T = unknown,>() => {
       document.body.style.cssText = '';
     }
   };
-
   return { openModal, closeModal, modalRef, open, data };
 };
-
 export default Modal;

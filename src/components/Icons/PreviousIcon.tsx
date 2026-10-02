@@ -20,5 +20,4 @@ const PreviousIcon = (props: { label: string }) => {
     </div>
   );
 };
-
 export default PreviousIcon;

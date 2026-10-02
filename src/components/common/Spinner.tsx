@@ -1,10 +1,8 @@
 import { forwardRef, useState } from 'react';
 import Modal, { useModal } from './modal/index';
-
 interface SpinnerProps {
   title?: string;
 }
-
 // eslint-disable-next-line react/display-name
 const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
   ({ title = 'Loading' }, ref) => {
@@ -29,15 +27,12 @@ const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
     );
   }
 );
-
 export const useSpinner = (defaultTitle = 'Loading...') => {
   const { modalRef, openModal, closeModal } = useModal();
-
   const [state, setState] = useState<{ defaultTitle: string; title?: string }>({
     defaultTitle,
   });
   const [loading, setLoading] = useState(false);
-
   const openSpinner = (
     { title }: { title?: string } = { title: defaultTitle }
   ) => {
@@ -45,13 +40,11 @@ export const useSpinner = (defaultTitle = 'Loading...') => {
     setLoading(true);
     openModal({ disableBackdrop: true });
   };
-
   const closeSpinner = () => {
     setState((prev) => ({ ...prev }));
     setLoading(false);
     closeModal();
   };
-
   return {
     spinnerState: {
       ref: modalRef,
@@ -62,5 +55,4 @@ export const useSpinner = (defaultTitle = 'Loading...') => {
     closeSpinner,
   };
 };
-
 export default Spinner;

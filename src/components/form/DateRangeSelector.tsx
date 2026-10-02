@@ -5,18 +5,15 @@ import { DateRange, type RangeKeyDict } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import '../../assets/style/custom_style.css';
-
 interface DateRangeValue {
   startDate: Date | null;
   endDate: Date | null;
 }
-
 interface DateRangeSelectorProps {
   date?: DateRangeValue;
   onDateChange?: (value: DateRangeValue) => void;
   placeholder?: string;
 }
-
 export default function DateRangeSelector({
   date,
   onDateChange,
@@ -47,7 +44,6 @@ export default function DateRangeSelector({
         key: 'selection',
       },
     ]);
-
     if (startDate && endDate) {
       setTextValue(
         `${format(startDate, 'dd/MM/yyyy')} - ${format(endDate, 'dd/MM/yyyy')}`
@@ -91,11 +87,9 @@ export default function DateRangeSelector({
         setTextValue('');
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [committed, hasDraftChanged]);
-
   const onPickerChange = (item: RangeKeyDict) => {
     const { startDate, endDate } = item.selection;
     setDraftRange([item.selection as (typeof draftRange)[number]]);
@@ -123,7 +117,6 @@ export default function DateRangeSelector({
     setOpen(false);
     setHasDraftChanged(false);
   };
-
   const cancel = () => {
     setDraftRange([
       {
@@ -132,7 +125,6 @@ export default function DateRangeSelector({
         key: 'selection',
       },
     ]);
-
     if (committed.startDate && committed.endDate) {
       setTextValue(
         `${format(committed.startDate, 'dd/MM/yyyy')} - ${format(
@@ -143,11 +135,9 @@ export default function DateRangeSelector({
     } else {
       setTextValue('');
     }
-
     setOpen(false);
     setHasDraftChanged(false);
   };
-
   const clear = (e: React.MouseEvent) => {
     e.stopPropagation();
     setCommitted({ startDate: null, endDate: null });
@@ -161,7 +151,6 @@ export default function DateRangeSelector({
     setTextValue('');
     onDateChange?.({ startDate: null, endDate: null });
   };
-
   const applyFromInput = () => {
     const value = textValue.trim();
     if (!value) {
@@ -176,29 +165,22 @@ export default function DateRangeSelector({
       onDateChange?.({ startDate: null, endDate: null });
       return;
     }
-
     const parts = value.split('-');
     if (parts.length !== 2) {
       return;
     }
-
     const startStr = parts[0].trim();
     const endStr = parts[1].trim();
-
     if (!startStr || !endStr) {
       return;
     }
-
     const parsedStart = parse(startStr, 'dd/MM/yyyy', new Date());
     const parsedEnd = parse(endStr, 'dd/MM/yyyy', new Date());
-
     if (!isValid(parsedStart) || !isValid(parsedEnd)) {
       return;
     }
-
     const startDate = parsedStart;
     const endDate = parsedEnd;
-
     setCommitted({ startDate, endDate });
     setDraftRange([
       {
@@ -209,22 +191,18 @@ export default function DateRangeSelector({
     ]);
     onDateChange?.({ startDate, endDate });
   };
-
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTextValue(e.target.value);
   };
-
   const handleInputBlur = () => {
     applyFromInput();
   };
-
   const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       applyFromInput();
       setOpen(false);
     }
   };
-
   return (
     <div ref={ref} style={{ position: 'relative' }}>
       <div style={{ position: 'relative' }}>
@@ -278,7 +256,6 @@ export default function DateRangeSelector({
           </button>
         )}
       </div>
-
       {open && (
         <div className="custom_range_date_picker">
           <DateRange
@@ -291,7 +268,6 @@ export default function DateRangeSelector({
             direction="horizontal"
             rangeColors={['#1976d2']}
           />
-
           <div className="d-flex justify-content-end gap-2">
             <button onClick={cancel} className="btn btn-secondary">
               Cancel

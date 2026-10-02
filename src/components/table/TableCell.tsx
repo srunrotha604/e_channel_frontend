@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import CopyClipboard from '../../components/CopyClipboard';
-
 interface TableCellProps {
   value?: string;
   className?: string;
   copy?: boolean;
 }
-
 const TableCell = (props: TableCellProps) => {
   const { value, className, copy } = props;
   const [isShown, setIsShown] = useState(false);
@@ -21,5 +19,4 @@ const TableCell = (props: TableCellProps) => {
     </td>
   );
 };
-
 export default TableCell;

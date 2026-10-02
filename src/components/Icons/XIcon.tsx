@@ -18,5 +18,4 @@ const XIcon = () => {
     </svg>
   );
 };
-
 export default XIcon;

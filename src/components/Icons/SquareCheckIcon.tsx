@@ -20,5 +20,4 @@ const SquareCheckIcon = (props: { onClick: () => void }) => {
     </svg>
   );
 };
-
 export default SquareCheckIcon;

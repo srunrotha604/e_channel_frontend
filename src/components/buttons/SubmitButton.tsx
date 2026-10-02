@@ -1,12 +1,10 @@
 import { Tooltip } from 'react-tooltip';
 import CheckIcon from '../Icons/CheckIcon';
-
 interface SubmitButtonProps {
   onClick: () => void;
   tooltip?: string;
   disabled?: boolean;
 }
-
 const SubmitButton = (props: SubmitButtonProps) => {
   const { onClick, tooltip, disabled } = props;
   return (
@@ -34,5 +32,4 @@ const SubmitButton = (props: SubmitButtonProps) => {
     </div>
   );
 };
-
 export default SubmitButton;

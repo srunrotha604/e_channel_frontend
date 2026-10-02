@@ -1,12 +1,10 @@
 import clsx from 'clsx';
 import type { ReactNode } from 'react';
-
 interface LabelValueItemProps {
   title?: ReactNode;
   value?: ReactNode;
   valueColorClassName?: string;
 }
-
 export const LabelValueItem = ({
   title,
   value,

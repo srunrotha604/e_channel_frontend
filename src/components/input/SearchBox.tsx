@@ -1,10 +1,8 @@
 import type { ChangeEventHandler } from 'react';
 import SearchIcon from '../Icons/SearchIcon';
-
 interface SearchBoxProps {
   onChange?: ChangeEventHandler<HTMLInputElement>;
 }
-
 const SearchBox = (props: SearchBoxProps) => {
   const { onChange } = props;
   return (
@@ -23,5 +21,4 @@ const SearchBox = (props: SearchBoxProps) => {
     </div>
   );
 };
-
 export default SearchBox;

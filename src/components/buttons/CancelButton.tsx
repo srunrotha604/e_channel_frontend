@@ -1,13 +1,11 @@
 import { Tooltip } from 'react-tooltip';
 import XIcon from '../Icons/XIcon';
-
 interface CancelButtonProps {
   onClick: () => void;
   tooltip?: string;
   disabled?: boolean;
   label?: string;
 }
-
 const CancelButton = (props: CancelButtonProps) => {
   const { onClick, tooltip, disabled, label } = props;
   return (
@@ -35,5 +33,4 @@ const CancelButton = (props: CancelButtonProps) => {
     </div>
   );
 };
-
 export default CancelButton;

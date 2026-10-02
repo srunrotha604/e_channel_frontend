@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import type { ReactNode } from 'react';
 import { useId } from 'react';
-
 interface ToggleSwitchProps {
   checked: boolean;
   onChange: (checked: boolean) => void;
@@ -9,7 +8,6 @@ interface ToggleSwitchProps {
   disabled?: boolean;
   className?: string;
 }
-
 const ToggleSwitch = ({
   checked,
   onChange,
@@ -18,7 +16,6 @@ const ToggleSwitch = ({
   className,
 }: ToggleSwitchProps) => {
   const inputId = useId();
-
   return (
     <div
       className={clsx(
@@ -46,5 +43,4 @@ const ToggleSwitch = ({
     </div>
   );
 };
-
 export default ToggleSwitch;

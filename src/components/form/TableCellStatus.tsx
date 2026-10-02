@@ -1,13 +1,11 @@
 import CancelButton from '../buttons/CancelButton';
 import DeleteButton from '../buttons/DeleteButton';
 import Modal, { useModal } from '../common/modal';
-
 interface TableCellStatusProps {
   onClick?: () => void;
   statusOnClick: () => void;
   status?: string;
 }
-
 const TableCellStatus = (props: TableCellStatusProps) => {
   const { statusOnClick, status } = props;
   const { modalRef, openModal, closeModal } = useModal();
@@ -42,5 +40,4 @@ const TableCellStatus = (props: TableCellStatusProps) => {
     </td>
   );
 };
-
 export default TableCellStatus;

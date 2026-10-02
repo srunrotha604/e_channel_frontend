@@ -3,12 +3,10 @@ import CancelButton from '../buttons/CancelButton';
 import DeleteButton from '../buttons/DeleteButton';
 import Modal, { useModal } from '../common/modal';
 import TrashIcon from '../Icons/TrashIcon';
-
 interface TableCellDeleteProps {
   onClick?: () => void;
   deleteOnClick: () => void;
 }
-
 const TableCellDelete = (props: TableCellDeleteProps) => {
   const { deleteOnClick } = props;
   const { modalRef, openModal, closeModal } = useModal();
@@ -38,5 +36,4 @@ const TableCellDelete = (props: TableCellDeleteProps) => {
     </>
   );
 };
-
 export default TableCellDelete;

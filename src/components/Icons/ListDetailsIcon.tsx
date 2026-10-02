@@ -25,5 +25,4 @@ const ListDetailsIcon = (props: { onClick: () => void; stroke: string }) => {
     </svg>
   );
 };
-
 export default ListDetailsIcon;

@@ -1,12 +1,10 @@
 import clsx from 'clsx';
-
 interface CheckboxProps {
   checked?: boolean;
   onChange: (checked: boolean) => void;
   disableGutter?: boolean;
   disabled?: boolean;
 }
-
 const Checkbox = ({
   checked,
   onChange,
@@ -28,5 +26,4 @@ const Checkbox = ({
     />
   );
 };
-
 export default Checkbox;

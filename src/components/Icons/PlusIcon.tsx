@@ -18,5 +18,4 @@ const PlusIcon = () => {
     </svg>
   );
 };
-
 export default PlusIcon;

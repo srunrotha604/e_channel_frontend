@@ -6,7 +6,6 @@ import ButtonGroup from '../../buttons/ButtonGroup';
 import CancelButton from '../../buttons/CancelButton';
 import SubmitButton from '../../buttons/SubmitButton';
 import Modal, { useModal } from '../../common/modal';
-
 interface TableRowDeleteComponentHandleProps {
   success: () => void;
   uuid?: string;
@@ -14,14 +13,12 @@ interface TableRowDeleteComponentHandleProps {
   title?: ReactNode;
   message?: ReactNode;
 }
-
 const TableRowDeleteComponentHandle = (
   props: TableRowDeleteComponentHandleProps
 ) => {
   const { success, uuid, route, title, message } = props;
   const { modalRef, openModal, closeModal } = useModal();
   const { showErrorResponseMessage } = useMessage();
-
   const onSubmit = async () => {
     try {
       const data = {
@@ -35,7 +32,6 @@ const TableRowDeleteComponentHandle = (
       showErrorResponseMessage(error);
     }
   };
-
   return (
     <>
       <Modal ref={modalRef} title={title} size="sm">
@@ -69,5 +65,4 @@ const TableRowDeleteComponentHandle = (
     </>
   );
 };
-
 export default TableRowDeleteComponentHandle;

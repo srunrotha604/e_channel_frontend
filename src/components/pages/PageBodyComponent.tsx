@@ -1,9 +1,7 @@
 import type { ReactNode } from 'react';
-
 interface PageBodyComponentProps {
   children?: ReactNode;
 }
-
 const PageBodyComponent = (props: PageBodyComponentProps) => {
   const { children } = props;
   return (
@@ -12,5 +10,4 @@ const PageBodyComponent = (props: PageBodyComponentProps) => {
     </div>
   );
 };
-
 export default PageBodyComponent;
