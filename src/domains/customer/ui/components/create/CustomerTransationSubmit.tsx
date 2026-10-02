@@ -4,7 +4,6 @@ import { useAuth } from '../../../../../context/AuthContext';
 import { ROUTE_PATH } from '../../../../../utils/route-util';
 import { STATUS } from '../../../entities';
 import TransactionDetail from '../transaction-table/CustomerTransactionDetail';
-
 interface CustomerTransationSubmitData {
   transaction?: string;
   transactionDateTime?: string;
@@ -18,10 +17,8 @@ const CostomerTransationSubmit = (props: CustomerTransationSubmitProps) => {
   const { data, productName } = props;
   const { getValues } = useFormContext();
   const { user, selectedBranch, selectedCompany } = useAuth();
-
   const navigate = useNavigate();
   const formData = getValues();
-
   return (
     <div className="page-wrapper">
       <div className="page-body">
@@ -87,7 +84,6 @@ const CostomerTransationSubmit = (props: CustomerTransationSubmitProps) => {
     </div>
   );
 };
-
 interface ReviewDetailData {
   policy?: { policyName?: string; value?: string };
   firstName?: string;
@@ -111,7 +107,6 @@ interface ReviewDetailData {
   transactionNumber?: string;
   deleted?: boolean;
 }
-
 const ReviewDetail = ({ data }: { data?: ReviewDetailData }) => {
   return (
     <TransactionDetail
@@ -139,5 +134,4 @@ const ReviewDetail = ({ data }: { data?: ReviewDetailData }) => {
     />
   );
 };
-
 export default CostomerTransationSubmit;

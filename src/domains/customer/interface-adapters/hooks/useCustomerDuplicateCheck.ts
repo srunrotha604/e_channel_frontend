@@ -5,13 +5,11 @@ import type {
   DuplicateCustomerResult,
 } from '../../use-cases/check-duplicate-customer';
 import { fetchCustomerDuplicateCheck } from '../api/customer-transaction.api';
-
 export const useCustomerDuplicateCheck = (
   getIdentifiers: () => DuplicateCheckIdentifiers
 ) => {
   const [duplicateCustomer, setDuplicateCustomer] =
     useState<DuplicateCustomerResult | null>(null);
-
   const checkDuplicateCustomer = async (_search?: string) => {
     console.log(_search);
     try {
@@ -21,12 +19,10 @@ export const useCustomerDuplicateCheck = (
       console.log(error);
     }
   };
-
   const debouncedCheckDuplicateCustomer = useDebouncedCallback(
     checkDuplicateCustomer,
     400
   );
-
   return {
     duplicateCustomer,
     checkDuplicateCustomer: debouncedCheckDuplicateCustomer,

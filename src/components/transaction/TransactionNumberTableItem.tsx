@@ -1,7 +1,6 @@
 interface TransactionNumberTableItemProps {
   transactionNumber?: string;
 }
-
 function TransactionNumberTableItem({
   transactionNumber,
 }: TransactionNumberTableItemProps) {
@@ -11,5 +10,4 @@ function TransactionNumberTableItem({
     </div>
   );
 }
-
 export default TransactionNumberTableItem;

@@ -8,7 +8,6 @@ export interface BatchDetailInfo {
   inputBranch?: string;
   inputter?: string;
 }
-
 export interface BatchDetail {
   details?: BatchDetailInfo;
   totalDocs?: number;

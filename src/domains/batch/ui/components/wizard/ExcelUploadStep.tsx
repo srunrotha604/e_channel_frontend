@@ -17,19 +17,15 @@ import { ROUTE_PATH } from '../../../../../utils/route-util';
 import type { ProjectPolicyOption } from '../../../../customer/entities';
 import type { BatchCustomerListResult } from '../../../entities';
 import { uploadBatchExcel } from '../../../interface-adapters';
-
 const downloadUrl =
   import.meta.env.VITE_API_URL + '/operation-customer/batch/download';
-
 type PolicyOption = NonNullable<ProjectPolicyOption['policies']>[number];
-
 interface ExcelUploadStepProps {
   project: ProjectPolicyOption[];
   handleReviewStep: (value: BatchCustomerListResult, product?: string) => void;
   handleGoBack: () => void;
   product: string;
 }
-
 const ExcelUploadStep = (props: ExcelUploadStepProps) => {
   const { project, handleReviewStep, handleGoBack, product } = props;
   const [policy, setPolicy] = useState<
@@ -44,7 +40,6 @@ const ExcelUploadStep = (props: ExcelUploadStepProps) => {
     },
     [myFiles]
   );
-
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
@@ -52,15 +47,12 @@ const ExcelUploadStep = (props: ExcelUploadStepProps) => {
     },
     multiple: false,
   });
-
   const { modalRef, closeModal, openModal } = useModal();
-
   const removeFile = (file: FileWithPath) => () => {
     const newFiles = [...myFiles];
     newFiles.splice(newFiles.indexOf(file), 1);
     setMyFiles(newFiles);
   };
-
   const files = myFiles.map((file) => (
     <li key={file.path} className="mt-2">
       {file.path} - {file.size} bytes
@@ -86,7 +78,6 @@ const ExcelUploadStep = (props: ExcelUploadStepProps) => {
       </svg>
     </li>
   ));
-
   const resetHandleClick = () => {
     reset({
       gender: '',
@@ -101,7 +92,6 @@ const ExcelUploadStep = (props: ExcelUploadStepProps) => {
     });
     setPolicy([]);
   };
-
   const { run: runUploadBatchExcel, loading } = useRequest(uploadBatchExcel, {
     manual: true,
     onSuccess: (res) => {
@@ -120,7 +110,6 @@ const ExcelUploadStep = (props: ExcelUploadStepProps) => {
       }
     },
   });
-
   const onSubmit = (data: {
     project?: { value?: string };
     policy?: { value?: string };
@@ -131,16 +120,13 @@ const ExcelUploadStep = (props: ExcelUploadStepProps) => {
       ProductCode: product,
     });
   };
-
   const projectWatch = useWatch({ control, name: 'project' });
-
   useEffect(() => {
     if (!projectWatch) {
       setPolicy([]);
       setValue('policy', null, { shouldValidate: true, shouldDirty: true });
       return;
     }
-
     const policies = projectWatch?.policies ?? [];
     setPolicy(policies);
     const currentPolicy = getValues('policy');
@@ -150,16 +136,13 @@ const ExcelUploadStep = (props: ExcelUploadStepProps) => {
         (p: { value?: string }) =>
           String(p.value) === String(currentPolicy.value)
       );
-
     const nextPolicy = stillValid ? currentPolicy : policies[0] ?? null;
     setValue('policy', nextPolicy, { shouldValidate: true, shouldDirty: true });
   }, [projectWatch, getValues, setValue]);
-
   const downloadExcelTemplate = () => {
     closeModal();
     document.querySelector<HTMLAnchorElement>('#excel-template')?.click();
   };
-
   return (
     <div className="page-wrapper">
       <div className="container-xl">
@@ -325,5 +308,4 @@ const ExcelUploadStep = (props: ExcelUploadStepProps) => {
     </div>
   );
 };
-
 export default ExcelUploadStep;

@@ -8,20 +8,16 @@ import { toast } from 'react-toastify';
 import { refreshToken } from '../utils/http-util';
 import { ROUTE_PATH } from '../utils/route-util';
 import { STORAGE_KEY } from '../utils/storage-key';
-
 interface JwtPayload {
   exp?: number;
   [key: string]: unknown;
 }
-
 interface AxiosInterceptorProps {
   children?: ReactNode;
 }
-
 const AxiosInterceptor = ({ children }: AxiosInterceptorProps) => {
   const navigate = useNavigate();
   const location = useLocation();
-
   useLayoutEffect(() => {
     const decodeJwtPayload = (jwt: string): JwtPayload => {
       const parts = jwt.split('.');
@@ -36,7 +32,6 @@ const AxiosInterceptor = ({ children }: AxiosInterceptorProps) => {
       const jsonPayload = atob(base64);
       return JSON.parse(jsonPayload);
     };
-
     const checkTokenExpiry = () => {
       const e_chanel_storage = localStorage.getItem(STORAGE_KEY);
       if (!e_chanel_storage) return;
@@ -68,7 +63,6 @@ const AxiosInterceptor = ({ children }: AxiosInterceptorProps) => {
         });
       }
     };
-
     const refreshAuthLogic = async (failedRequest: AxiosError) => {
       try {
         const tokenObj = await refreshToken();
@@ -86,26 +80,20 @@ const AxiosInterceptor = ({ children }: AxiosInterceptorProps) => {
           replace: true,
           state: { from: location },
         });
-
         return Promise.reject(error);
       }
     };
-
     const interceptorId = createAuthRefreshInterceptor(
       axios,
       refreshAuthLogic,
       { pauseInstanceWhileRefreshing: true }
     );
-
     const intervalId = setInterval(checkTokenExpiry, 15 * 60 * 1000);
-
     return () => {
       clearInterval(intervalId);
       axios.interceptors.response.eject(interceptorId);
     };
   }, [navigate, location]);
-
   return children;
 };
-
 export default AxiosInterceptor;

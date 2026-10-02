@@ -1,10 +1,8 @@
 import type { ProductOption } from '../../../../customer/entities';
-
 interface SelectProductStepProps {
   product: ProductOption[];
   handleProductClick: (productCode: string) => void;
 }
-
 const SelectProductStep = (props: SelectProductStepProps) => {
   const { product, handleProductClick } = props;
   return (
@@ -51,5 +49,4 @@ const SelectProductStep = (props: SelectProductStepProps) => {
     </div>
   );
 };
-
 export default SelectProductStep;

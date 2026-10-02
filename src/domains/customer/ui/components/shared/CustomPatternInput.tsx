@@ -27,5 +27,4 @@ const CustomPatternInput = forwardRef<HTMLInputElement, CustomPatternProps>(
     );
   }
 );
-
 export default CustomPatternInput;

@@ -14,7 +14,6 @@ const STEP = {
   Review: 'Review',
   Submitted: 'Submitted',
 };
-
 const CustomerCreatePage = () => {
   document.title = 'E-CHANNEL PORTAL | customer create';
   const params = useParams();

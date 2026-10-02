@@ -32,20 +32,16 @@ import { STORAGE_KEY } from '../../utils/storage-key';
 import { useModal } from '../common/modal/index';
 import { selectCustomStyles } from '../common/reactSelectStyles';
 import Spinner, { useSpinner } from '../common/Spinner';
-
 type TotalCounts = Record<string, number | undefined>;
-
 interface ListResponse<T> {
   list?: T[];
   total?: TotalCounts[];
   totalDocs?: number;
 }
-
 interface FetchResultPayload<T> {
   data?: ListResponse<T>;
   tabStatus: string;
 }
-
 interface NavigateListParams {
   status?: string;
   branch?: string;
@@ -54,7 +50,6 @@ interface NavigateListParams {
   search?: string;
   type?: string;
 }
-
 export interface TransactionTabItem {
   status?: string;
   type?: string;
@@ -62,21 +57,17 @@ export interface TransactionTabItem {
   hidden?: boolean;
   getTotal: (total?: TotalCounts) => number | string | undefined;
 }
-
 export interface TransactionTabListHandle {
   getList: () => void;
 }
-
 interface TransactionLike {
   transactionNumber?: string;
   deleted?: boolean;
 }
-
 interface DetailModalRenderProps<T> {
   data: T;
   onShowLogs: () => void;
 }
-
 interface LogsModalProps {
   transactionNo?: string;
   open?: boolean;
@@ -84,7 +75,6 @@ interface LogsModalProps {
   openSpinner: (arg?: { title?: string }) => void;
   closeSpinner: () => void;
 }
-
 interface TransactionTableProps<T extends TransactionLike> {
   title?: ReactNode;
   tab?: TransactionTabItem[];
@@ -120,7 +110,6 @@ interface TransactionTableProps<T extends TransactionLike> {
   >;
   mapItem?: (item: T) => T;
 }
-
 const TransactionTableInner = <T extends TransactionLike>(
   {
     title,
@@ -172,13 +161,11 @@ const TransactionTableInner = <T extends TransactionLike>(
   const { showErrorResponseMessage } = useMessage();
   const tableRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
-
   const resetTableScroll = (position = 0) => {
     if (tableRef.current) {
       tableRef.current.scrollTop = position;
     }
   };
-
   const navigateList = (params: NavigateListParams = {}) => {
     navigate(
       {
@@ -195,7 +182,6 @@ const TransactionTableInner = <T extends TransactionLike>(
       { replace: true }
     );
   };
-
   const getList = async (
     status: string,
     branch: string,
@@ -211,7 +197,6 @@ const TransactionTableInner = <T extends TransactionLike>(
     const listBranch =
       branch === 'All' || branch.length === -1 ? '' : `${branch}`;
     const listType = type === 'All' || branch.length === -1 ? '' : `${type}`;
-
     try {
       const res = await HttpUtil.get<ListResponse<T>>(
         `${url}?${extraParams}&status=${listStatus}&branchName=${listBranch}&pageSize=${rowPerPage}&pageNumber=${pageNum}&search=${search}&${
@@ -219,18 +204,15 @@ const TransactionTableInner = <T extends TransactionLike>(
         }`,
         { signal: signal ?? undefined }
       );
-
       const list = res?.data?.list ?? [];
       setArrCustomer(mapItem ? list.map(mapItem) : list);
       setTotal(res?.data?.total?.[0]);
       const tempTotalDocs = res?.data?.totalDocs;
       setTotalDocs(tempTotalDocs ?? null);
       const totalPage = Math.ceil((tempTotalDocs ?? 0) / rowPerPage);
-
       if (totalPage > 0 && totalPage < pageNum) {
         navigateList({ pageNum: totalPage });
       }
-
       onFetchSuccess?.({ data: res?.data, tabStatus: listStatus });
     } catch (error) {
       if (axios.isCancel(error)) {
@@ -245,7 +227,6 @@ const TransactionTableInner = <T extends TransactionLike>(
       setLoading(false);
     }
   };
-
   const getListDetails = (transactionCode?: string) => {
     return HttpUtil.get<ListResponse<T>>(
       `${ROUTE_API.operationCustomer}?transactionCode=` + transactionCode
@@ -265,41 +246,33 @@ const TransactionTableInner = <T extends TransactionLike>(
       }
     });
   };
-
   const handleShowTransactionDetail = async (item: T) => {
     const result = await getListDetails(item.transactionNumber);
     if (result) {
       openModal();
     }
   };
-
   const { spinnerState, openSpinner, closeSpinner } = useSpinner();
-
   const tabHandleClick = (value: string, type?: string) => {
     navigateList({ status: value, pageNum: 1, type: type ? type : '' });
     setTotalDocs(0);
     onTabChange && onTabChange(value);
   };
-
   const branchSelectedHandleChange = (data: SelectOptionList | null) => {
     navigateList({ branch: data?.value });
   };
-
   const handleChangeRowPerPage = (e: ChangeEvent<HTMLSelectElement>) => {
     const tempRowPerPage = Number(e.target.value);
     setRowPerPage(tempRowPerPage);
     navigateList({ rowPerPage: tempRowPerPage, pageNum: 1 });
   };
-
   const handleChangePageNum = (e: { selected: number }) => {
     setPageNum(Number(e.selected) + 1);
     navigateList({ pageNum: Number(e.selected) + 1 });
   };
-
   const handleTypeChange = (data: SelectOptionList | null) => {
     navigateList({ type: data?.value });
   };
-
   useEffect(() => {
     if (company) {
       const e_chanel_storage = localStorage.getItem(STORAGE_KEY);
@@ -321,7 +294,6 @@ const TransactionTableInner = <T extends TransactionLike>(
       }
     }
   }, [company]);
-
   useImperativeHandle(
     ref,
     () => {
@@ -340,7 +312,6 @@ const TransactionTableInner = <T extends TransactionLike>(
     },
     [tabStatus, selectedBranch, rowPerPage, pageNum, type]
   );
-
   useEffect(() => {
     let tempStatus = searchParams.get('status') ?? defaultTab;
     let tempBranch = searchParams.get('branch') ?? 'All';
@@ -374,17 +345,14 @@ const TransactionTableInner = <T extends TransactionLike>(
   const debounceSearch = useDebouncedCallback((value: string) => {
     navigateList({ pageNum: 1, search: value });
   }, 400);
-
   const {
     modalRef: transactionLogModalRef,
     open: transactionLogModalOpen,
     openModal: openTransactionLogModal,
     closeModal: closeTransactionLogModal,
   } = useModal();
-
   const isEnableTypeFilter =
     typeof typeFilter === 'function' ? typeFilter({ tabStatus }) : typeFilter;
-
   return (
     <>
       <div className="page-wrapper">
@@ -472,7 +440,6 @@ const TransactionTableInner = <T extends TransactionLike>(
                       />
                     </label>
                   )}
-
                   <div className="input-icon mx-2">
                     <span className="input-icon-addon">
                       <svg
@@ -669,7 +636,6 @@ const TransactionTableInner = <T extends TransactionLike>(
     </>
   );
 };
-
 const TransactionTable = forwardRef(TransactionTableInner) as <
   T extends TransactionLike
 >(
@@ -677,5 +643,4 @@ const TransactionTable = forwardRef(TransactionTableInner) as <
     ref?: ForwardedRef<TransactionTabListHandle>;
   }
 ) => ReturnType<typeof TransactionTableInner>;
-
 export default TransactionTable;

@@ -3,14 +3,11 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toast } from 'react-toastify';
 import { Tooltip } from 'react-tooltip';
 import CopyIcon from './Icons/CopyIcon';
-
 interface CopyClipboardProps {
   data?: string;
 }
-
 const CopyClipboard = (props: CopyClipboardProps) => {
   const { data } = props;
-
   const onCopy = useCallback((data: string) => {
     toast.info(`Copy "${data}" To Clipboard!`);
   }, []);
@@ -35,5 +32,4 @@ const CopyClipboard = (props: CopyClipboardProps) => {
     </>
   );
 };
-
 export default CopyClipboard;

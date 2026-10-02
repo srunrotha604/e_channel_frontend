@@ -3,24 +3,20 @@ import { useNavigate } from 'react-router';
 import TransactionDetail, {
   type TransactionDetailData,
 } from './CustomerTransactionDetail';
-
 interface TransactionDetailCardProps {
   data?: TransactionDetailData | null;
   actions?: ReactNode;
   children?: ReactNode;
 }
-
 const TransactionDetailCard = ({
   data,
   actions,
   children,
 }: TransactionDetailCardProps) => {
   const navigate = useNavigate();
-
   const handleGoBack = () => {
     navigate(-1);
   };
-
   return (
     <form className="card" autoComplete="off">
       <div className="card-body">
@@ -45,7 +41,6 @@ const TransactionDetailCard = ({
     </form>
   );
 };
-
 const getStatusColor = (status?: string) => {
   switch (status) {
     case 'submitted':
@@ -59,12 +54,10 @@ const getStatusColor = (status?: string) => {
       return 'transaction-rejected';
   }
 };
-
 interface TransactionHeaderProps {
   status?: string;
   deleted?: boolean;
 }
-
 const TransactionHeader = ({ status, deleted }: TransactionHeaderProps) => {
   return (
     <h2 className="card-transaction-title text-center mb-3">
@@ -75,7 +68,6 @@ const TransactionHeader = ({ status, deleted }: TransactionHeaderProps) => {
     </h2>
   );
 };
-
 export const TransactionDetailCardContainer = ({
   children,
 }: {
@@ -91,5 +83,4 @@ export const TransactionDetailCardContainer = ({
     </div>
   );
 };
-
 export default TransactionDetailCard;

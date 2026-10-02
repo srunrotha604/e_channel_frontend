@@ -43,7 +43,6 @@ import {
   processBatchTransactions,
 } from '../../interface-adapters';
 import { buildBatchProcessDto } from '../../use-cases';
-
 const BatchDetailPage = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
@@ -52,7 +51,6 @@ const BatchDetailPage = () => {
     useAuth();
   const navigate = useNavigate();
   const tabListRef = useRef<TransactionTabListHandle | null>(null);
-
   const {
     handleSelectTransaction,
     handleRemoveCustomerFromList,
@@ -67,7 +65,6 @@ const BatchDetailPage = () => {
     selectedCustomerList,
     setSelectedCustomerList,
   } = useTransactionTabSelect();
-
   const { closeModal, openModal, modalRef, open } = useModal();
   const {
     closeModal: closeActionModal,
@@ -78,9 +75,7 @@ const BatchDetailPage = () => {
   const [processStatus, setProccessStatus] = useState<string | null>(null);
   const [batchDetail, setBatchDetail] = useState<BatchDetail | null>(null);
   const [currentTabStatus, setCurrentTabStatus] = useState<string | null>(null);
-
   const { openSpinner, closeSpinner, spinnerState } = useSpinner();
-
   const navTab = useMemo(() => {
     return [
       {
@@ -121,7 +116,6 @@ const BatchDetailPage = () => {
       },
     ].filter((item) => !item.hidden);
   }, [hasPermissionAccessTransaction]);
-
   const getSelectedCustomerList = async () => {
     try {
       const response = selectedAll
@@ -140,9 +134,7 @@ const BatchDetailPage = () => {
       return [];
     }
   };
-
   const details = batchDetail?.details;
-
   const listDetail = [
     {
       label: 'Project',
@@ -169,11 +161,9 @@ const BatchDetailPage = () => {
       value: details?.inputter,
     },
   ];
-
   const goBack = () => {
     navigate(-1);
   };
-
   const handleProcess = async (rejectRemark?: string) => {
     try {
       openSpinner();
@@ -184,9 +174,7 @@ const BatchDetailPage = () => {
         selectedTransaction,
         rejectRemark,
       });
-
       await processBatchTransactions(summaryDate);
-
       toast.success(
         `${selectedCustomerList.length} ${pluralize(
           'transaction',
@@ -211,14 +199,11 @@ const BatchDetailPage = () => {
       resetSelected();
     }
   }, [selectedCustomerList]);
-
   useEffect(() => {
     openSpinner();
   }, []);
-
   const [processLoading, startProcessLoading, stopProcessLoading] =
     useLoading();
-
   const { showErrorResponseMessage } = useMessage();
   const handleProcessSelected = async () => {
     try {
@@ -234,14 +219,12 @@ const BatchDetailPage = () => {
       stopProcessLoading();
     }
   };
-
   const hasAction =
     currentTabStatus && actions[currentTabStatus]
       ? actions[currentTabStatus].some((action) =>
           hasPermissionProccessTransaction(action.action)
         )
       : false;
-
   return (
     <div className="page-wrapper container-xl batch-detail-container">
       <div
@@ -467,5 +450,4 @@ const BatchDetailPage = () => {
     </div>
   );
 };
-
 export default BatchDetailPage;

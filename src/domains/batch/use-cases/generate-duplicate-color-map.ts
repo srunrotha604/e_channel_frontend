@@ -1,5 +1,4 @@
 import type { BatchCustomerRow } from '../entities';
-
 const duplicatedColorCode = [
   '#EBB99A',
   '#CDFC92',
@@ -22,14 +21,12 @@ const duplicatedColorCode = [
   '#B5E5E5',
   '#D3B5B5',
 ];
-
 export interface DuplicateColorMap {
   nic: Map<string | undefined, string | null>;
   customerId: Map<string | undefined, string | null>;
   nicColor: number;
   customerIdColor: number;
 }
-
 export const generateDuplicateColorMap = (
   data: BatchCustomerRow[]
 ): DuplicateColorMap => {

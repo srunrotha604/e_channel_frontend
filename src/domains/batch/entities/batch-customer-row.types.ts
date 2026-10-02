@@ -12,7 +12,6 @@ export interface BatchCustomerRow {
   physicalCard?: string;
   openingDate?: string;
 }
-
 export interface BatchCustomerListResult {
   list?: BatchCustomerRow[];
   existingList?: BatchCustomerRow[];

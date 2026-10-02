@@ -77,5 +77,4 @@ const TransactionBatchProccessModal = forwardRef<
     </Modal>
   );
 });
-
 export default TransactionBatchProccessModal;

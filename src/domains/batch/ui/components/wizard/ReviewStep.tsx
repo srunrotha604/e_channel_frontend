@@ -20,20 +20,17 @@ import {
   buildBatchSubmitDto,
   generateDuplicateColorMap,
 } from '../../../use-cases';
-
 const TAB = {
   New: 'New',
   Duplicate: 'Duplicate',
   Invalid: 'Invalid',
   Existing: 'Existing',
 };
-
 interface ReviewStepProps {
   customerList: BatchCustomerListResult;
   handleReviewBackStep: () => void;
   product: string;
 }
-
 const ReviewStep = (props: ReviewStepProps) => {
   const { customerList, handleReviewBackStep, product } = props;
   const { getValues } = useFormContext();
@@ -42,7 +39,6 @@ const ReviewStep = (props: ReviewStepProps) => {
   const navigate = useNavigate();
   const { spinnerState, openSpinner, closeSpinner } = useSpinner();
   const { showErrorResponseMessage } = useMessage();
-
   const handleSubmit = async ({ isDraft }: { isDraft: boolean }) => {
     try {
       openSpinner();
@@ -50,7 +46,6 @@ const ReviewStep = (props: ReviewStepProps) => {
         productCode: product,
         isDraft,
       });
-
       await submitBatchCustomerList(data);
       if (isDraft) {
         toast.success('Draft saved successfully');
@@ -65,13 +60,10 @@ const ReviewStep = (props: ReviewStepProps) => {
       closeSpinner();
     }
   };
-
   const [arrList, setArrList] = useState<BatchCustomerRow[]>(
     customerList.list ?? []
   );
-
   const [tabStatus, setTabStatus] = useState(TAB.New);
-
   const navTab = [
     { label: TAB.New, status: TAB.New, total: customerList.totalRecord },
     {
@@ -90,7 +82,6 @@ const ReviewStep = (props: ReviewStepProps) => {
       total: customerList.totalErrorRecord,
     },
   ];
-
   const tabHandleClick = (value: string) => {
     setTabStatus(value);
     setCurrentPage(0);
@@ -109,19 +100,15 @@ const ReviewStep = (props: ReviewStepProps) => {
         break;
     }
   };
-
   const PER_PAGE = 10;
   const [currentPage, setCurrentPage] = useState(0);
 
   function handlePageClick({ selected: selectedPage }: { selected: number }) {
     setCurrentPage(selectedPage);
   }
-
   const offset = currentPage * PER_PAGE;
   const pageCount = Math.ceil(arrList.length / PER_PAGE);
-
   const { modalRef, openModal, closeModal } = useModal();
-
   const customerDataList = arrList?.slice(offset, offset + PER_PAGE);
   let duplicated: DuplicateColorMap = {
     nic: new Map(),
@@ -132,7 +119,6 @@ const ReviewStep = (props: ReviewStepProps) => {
   if (tabStatus === TAB.Duplicate) {
     duplicated = generateDuplicateColorMap(arrList);
   }
-
   return (
     <div className="page-wrapper">
       <div className="page-body">
@@ -415,5 +401,4 @@ const ReviewStep = (props: ReviewStepProps) => {
     </div>
   );
 };
-
 export default ReviewStep;

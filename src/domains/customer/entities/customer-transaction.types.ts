@@ -9,7 +9,6 @@ export interface TransactionTotalCounts {
   accepted?: number;
   confirmedDeleted?: number;
 }
-
 export interface CustomerListResponse {
   list?: CustomerTransaction[];
   total?: TransactionTotalCounts[];
@@ -24,13 +23,11 @@ export type CustomerTransactionRaw = Omit<
   dateofBirth?: string;
   deleted?: boolean | string;
 };
-
 export interface CustomerRawListResponse {
   list?: CustomerTransactionRaw[];
   total?: TransactionTotalCounts[];
   totalDocs?: number;
 }
-
 export interface CustomerTransaction {
   transactionCode?: string;
   transactionNumber?: string;

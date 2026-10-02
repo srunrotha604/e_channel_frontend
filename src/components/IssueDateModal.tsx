@@ -24,7 +24,6 @@ interface IssueDateModalProps {
   arrCustomer?: unknown;
   onUpdate?: (cardNumber: string) => void;
 }
-
 const IssueDateModal = ({
   open,
   closeModal,
@@ -44,7 +43,6 @@ const IssueDateModal = ({
       setRemark(existingRemark);
     }
   }, [item, open]);
-
   const updateCardConfirmation = async (status: 'confirm' | 'cancel') => {
     const secureCode = item?.customerIssueDate?.secureCode;
     if (!secureCode) return;
@@ -57,7 +55,6 @@ const IssueDateModal = ({
           status,
         }
       );
-
       if (response?.status === 200) {
         onStatusChange?.(status);
 
@@ -109,7 +106,6 @@ const IssueDateModal = ({
                     placeholder="Enter a remark..."
                   />
                 </div>
-
                 <div className="d-flex justify-content-between">
                   <button className="btn btn-danger" onClick={handleNo}>
                     No

@@ -10,7 +10,6 @@ import type {
   DuplicateCustomerResult,
 } from '../../use-cases/check-duplicate-customer';
 import { mapCustomerTransaction } from '../../use-cases/map-customer-transaction';
-
 export const fetchCustomerDuplicateCheck = async (
   identifiers: DuplicateCheckIdentifiers
 ) => {
@@ -20,7 +19,6 @@ export const fetchCustomerDuplicateCheck = async (
   );
   return response?.data ?? null;
 };
-
 export const fetchCustomerTransactionByCode = async (
   transactionCode: string
 ) => {
@@ -30,7 +28,6 @@ export const fetchCustomerTransactionByCode = async (
   const raw = response?.data?.list?.[0];
   return raw ? mapCustomerTransaction(raw) : null;
 };
-
 export const fetchCustomerTransactionList = async (
   params: Record<string, unknown>
 ): Promise<CustomerListResponse | null> => {
@@ -44,28 +41,24 @@ export const fetchCustomerTransactionList = async (
     list: response.data.list?.map(mapCustomerTransaction),
   };
 };
-
 export const createCustomerTransaction = async (
   data: Record<string, unknown>
 ) => {
   const response = await HttpUtil.post(ROUTE_API.operationCustomer, data);
   return response?.data;
 };
-
 export const updateCustomerTransaction = async (
   data: Record<string, unknown>
 ) => {
   const response = await HttpUtil.put(ROUTE_API.operationCustomer, data);
   return response?.data;
 };
-
 export const deleteCustomerTransactions = async (
   data: Record<string, unknown>
 ) => {
   const response = await HttpUtil.post(ROUTE_API.operationCustomerDelete, data);
   return response?.data;
 };
-
 export const processCustomerTransaction = async (
   isDeleted: boolean,
   data: Record<string, unknown>

@@ -7,7 +7,6 @@ import type {
 } from '../../../customer/entities';
 import { mapCustomerTransaction } from '../../../customer/use-cases';
 import type { BatchCustomerListResult } from '../../entities';
-
 export const uploadBatchExcel = (
   files: FileWithPath[],
   data: { ProjectCode?: string; Policies?: string; ProductCode: string }
@@ -23,14 +22,12 @@ export const uploadBatchExcel = (
     formData
   );
 };
-
 export const submitBatchCustomerList = async (
   data: Record<string, unknown>
 ) => {
   const response = await HttpUtil.post(ROUTE_API.operationCustomerBatch, data);
   return response?.data;
 };
-
 export const fetchBatchTransactionList = async (
   batchNumber: string,
   params: Record<string, unknown>
@@ -45,7 +42,6 @@ export const fetchBatchTransactionList = async (
     list: response.data.list?.map(mapCustomerTransaction),
   };
 };
-
 export const processBatchTransactions = async (
   data: Record<string, unknown>
 ) => {

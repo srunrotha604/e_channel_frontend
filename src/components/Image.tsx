@@ -4,7 +4,6 @@ interface ImageProps {
   width?: number | string;
   height?: number | string;
 }
-
 function Image(props: ImageProps) {
   return (
     <img
@@ -16,5 +15,4 @@ function Image(props: ImageProps) {
     />
   );
 }
-
 export default Image;

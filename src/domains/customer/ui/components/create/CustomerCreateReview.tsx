@@ -11,7 +11,6 @@ import { handleApiError } from '../../../../../utils/handleApiError';
 import { createCustomerTransaction } from '../../../interface-adapters';
 import { buildCustomerCreateDto } from '../../../use-cases';
 import TransactionDetail from '../transaction-table/CustomerTransactionDetail';
-
 interface CustomerCreateReviewProps {
   handleBackStep?: () => void;
   handleSubmitted: (
@@ -20,7 +19,6 @@ interface CustomerCreateReviewProps {
   ) => void;
   productName?: string;
 }
-
 const CustomerCreateReview = (props: CustomerCreateReviewProps) => {
   const { user, selectedBranch, selectedCompany } = useAuth();
   const { handleBackStep, handleSubmitted, productName } = props;
@@ -30,7 +28,6 @@ const CustomerCreateReview = (props: CustomerCreateReviewProps) => {
   const params = useParams();
   const { openModal, closeModal, modalRef } = useModal();
   const { spinnerState, openSpinner, closeSpinner } = useSpinner();
-
   const onSubmit = async (
     data: Record<string, any>,
     { suppressSuccessToast = false } = {}
@@ -58,24 +55,20 @@ const CustomerCreateReview = (props: CustomerCreateReviewProps) => {
     } catch (error) {
       delay(() => {
         closeSpinner();
-
         const baseMsg =
           data.status === 'Draft'
             ? 'Failed to save draft'
             : 'Failed to create record';
-
         if (axios.isAxiosError(error) && error.response?.status === 400) {
           toast.error(`${baseMsg}. The record already exists.`);
           return;
         }
-
         if (axios.isAxiosError(error)) {
           handleApiError(error, baseMsg);
         }
       });
     }
   };
-
   return (
     <div className="page-wrapper justify-content-center">
       <div className="page-body py-2">
@@ -143,7 +136,6 @@ const CustomerCreateReview = (props: CustomerCreateReviewProps) => {
     </div>
   );
 };
-
 interface ReviewDetailData {
   physicalCard?: boolean | string;
   firstName?: string;
@@ -163,7 +155,6 @@ interface ReviewDetailData {
   parentId?: string;
   openingDate?: string;
 }
-
 const ReviewDetail = ({ data }: { data?: ReviewDetailData }) => {
   return (
     <TransactionDetail
@@ -187,5 +178,4 @@ const ReviewDetail = ({ data }: { data?: ReviewDetailData }) => {
     />
   );
 };
-
 export default CustomerCreateReview;

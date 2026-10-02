@@ -1,12 +1,10 @@
 import type { ModuleActionItem, ModuleGroupItem } from '../../@type/module';
-
 const defaultAssignByCode = (
   acc: Record<string, unknown>,
   curr: { code: string }
 ) => {
   acc[curr.code] = curr;
 };
-
 export const arrayToObject = <T extends { code: string }, R = T>(
   array: T[] | undefined,
   callback: (acc: Record<string, R>, curr: T) => void = defaultAssignByCode as (
@@ -19,7 +17,6 @@ export const arrayToObject = <T extends { code: string }, R = T>(
     return accAction;
   }, {});
 };
-
 export const buildModuleObject = (
   module: ModuleGroupItem[] | undefined
 ): Record<string, Record<string, ModuleActionItem>> => {
@@ -30,7 +27,6 @@ export const buildModuleObject = (
     }
   );
 };
-
 export const isModuleActive = (
   moduleObject:
     | Record<string, Record<string, { active?: boolean }>>

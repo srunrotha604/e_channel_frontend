@@ -5,7 +5,6 @@ export interface BuildBatchProcessDtoParams {
   selectedTransaction: string[];
   rejectRemark?: string;
 }
-
 export const buildBatchProcessDto = ({
   status,
   batchNumber,
@@ -21,16 +20,13 @@ export const buildBatchProcessDto = ({
   } = {
     status,
   };
-
   if (selectedAll) {
     summaryDate.batchNumber = batchNumber;
   } else {
     summaryDate.transaction = selectedTransaction;
   }
-
   if (rejectRemark) {
     summaryDate.remark = rejectRemark;
   }
-
   return summaryDate;
 };

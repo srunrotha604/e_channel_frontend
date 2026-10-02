@@ -19,16 +19,13 @@ import {
 import { calculateAge } from '../../../use-cases';
 import ExistedPolicyModal from '../create/ExistedPolicyModal';
 import CustomPatternInput from '../shared/CustomPatternInput';
-
 type PolicyOption = NonNullable<ProjectPolicyOption['policies']>[number];
-
 interface CustomerEditProps {
   project?: ProjectPolicyOption[];
   handleNextStep?: () => void;
   setProduct?: Dispatch<SetStateAction<string>>;
   closeSpinner?: () => void;
 }
-
 const CustomerEdit = (props: CustomerEditProps) => {
   const { project, handleNextStep, setProduct, closeSpinner } = props;
   const navigate = useNavigate();
@@ -40,12 +37,10 @@ const CustomerEdit = (props: CustomerEditProps) => {
   const [age, setAge] = useState<string | null>(null);
   const { register, control, handleSubmit, setValue, reset, getValues } =
     useFormContext();
-
   const goBackHandleClick = () => {
     navigate(-1);
   };
   const { showErrorResponseMessage } = useMessage();
-
   const getListDetails = async () => {
     try {
       const responseData = await fetchCustomerTransactionByCode(
@@ -61,7 +56,6 @@ const CustomerEdit = (props: CustomerEditProps) => {
       if (responseData?.remark) {
         setRejectRemark(responseData.remark);
       }
-
       setPolicy(selectedProject?.policies ?? []);
       setPolicyDetails(selectedPolicies ?? null);
       reset({
@@ -79,48 +73,38 @@ const CustomerEdit = (props: CustomerEditProps) => {
       closeSpinner?.();
     }
   };
-
   const dobWatch = useWatch({ control, name: 'dateOfBirth' });
-
   const handleDateChange = (
     input: unknown,
     onChange: (value: Date | null) => void,
     commitToForm = true
   ) => {
     const result = calculateAge(input);
-
     if (!result) {
       setAge('');
       setIsUnderage(false);
       if (commitToForm) onChange(null);
       return;
     }
-
     setAge(result.ageLabel);
     setIsUnderage(result.isUnderage);
-
     if (commitToForm) {
       onChange(result.dob);
     }
   };
-
   useEffect(() => {
     if (dobWatch) {
       handleDateChange(dobWatch, () => {}, false);
     }
   }, [dobWatch]);
-
   useEffect(() => {
     if (!project || !project.length) return;
-
     const isCreate = !getValues('firstName');
     if (isCreate) {
       getListDetails();
     }
-
     const selectedProject = getValues('project') || null;
     const currentPolicy = getValues('policy') || null;
-
     setRejectRemark(getValues('remark'));
     debouceCheckDuplicateCustomer();
     if (!selectedProject) {
@@ -129,28 +113,22 @@ const CustomerEdit = (props: CustomerEditProps) => {
       setValue('policy', null, { shouldValidate: true, shouldDirty: true });
       return;
     }
-
     const policies = selectedProject.policies ?? [];
     setPolicy(policies);
-
     if (policies.length === 0) {
       setPolicyDetails(null);
       setValue('policy', null, { shouldValidate: true, shouldDirty: true });
       return;
     }
-
     const currentIsValid =
       currentPolicy &&
       policies.some(
         (p: PolicyOption) => String(p.value) === String(currentPolicy.value)
       );
-
     const nextPolicy = currentIsValid ? currentPolicy : policies[0];
-
     setValue('policy', nextPolicy, { shouldValidate: true, shouldDirty: true });
     setPolicyDetails(nextPolicy);
   }, [project]);
-
   const {
     duplicateCustomer,
     checkDuplicateCustomer: debouceCheckDuplicateCustomer,
@@ -158,7 +136,6 @@ const CustomerEdit = (props: CustomerEditProps) => {
     nicPassport: getValues('nicPassport'),
     customerId: getValues('customerId'),
   }));
-
   const { modalRef, openModal } = useModal();
   return (
     <div className="page-wrapper">
@@ -563,5 +540,4 @@ const CustomerEdit = (props: CustomerEditProps) => {
     </div>
   );
 };
-
 export default CustomerEdit;

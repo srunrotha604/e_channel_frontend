@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import type { CustomerTransaction } from '../../entities';
-
 export const useTransactionTabSelect = () => {
   const [selectedCustomerList, setSelectedCustomerList] = useState<
     CustomerTransaction[]
@@ -16,7 +15,6 @@ export const useTransactionTabSelect = () => {
     if (!transaction) return;
     setSelectedAll(false);
     const isTransactionDeleted = transaction.deleted;
-
     if (selectedTransaction.length > 0) {
       if (
         (isTransactionDeleted && !selectDeletedTransaction) ||
@@ -32,7 +30,6 @@ export const useTransactionTabSelect = () => {
         setSelectDeletedTransaction(false);
       }
     }
-
     if (selectedTransaction.includes(transaction?.transactionNumber ?? '')) {
       setSelectedTransaction(
         selectedTransaction.filter((t) => t !== transaction?.transactionNumber)
@@ -44,32 +41,26 @@ export const useTransactionTabSelect = () => {
       ]);
     }
   };
-
   const resetSelected = () => {
     setSelectedAll(false);
     setSelectedCustomerList([]);
     setSelectedTransaction([]);
   };
-
   const resetSelectedCustomerList = () => {
     setSelectedCustomerList([]);
   };
-
   const resetSelectedTransaction = () => {
     setSelectedTransaction([]);
   };
-
   const resetSelectedAll = () => {
     setSelectedAll(false);
   };
-
   const handleSelectAllInCurrentList = (
     checked: boolean,
     transactionList: CustomerTransaction[]
   ) => {
     setSelectedAll(false);
     if (transactionList.length === 0) return;
-
     let isTransactionDeleted = transactionList?.[0].deleted;
     if (selectedTransaction.length > 0) {
       isTransactionDeleted = selectDeletedTransaction;
@@ -80,13 +71,11 @@ export const useTransactionTabSelect = () => {
         setSelectDeletedTransaction(false);
       }
     }
-
     if (checked) {
       setSelectedTransaction((prev) => {
         const selectTransaction = transactionList
           ?.filter((t) => t.deleted === isTransactionDeleted)
           .map((t) => t.transactionNumber ?? '');
-
         return Array.from(new Set([...prev, ...selectTransaction]));
       });
     } else {
@@ -99,7 +88,6 @@ export const useTransactionTabSelect = () => {
       });
     }
   };
-
   const handleRemoveCustomerFromList = (customer: CustomerTransaction) => {
     const tempSelectedCustomerList = selectedCustomerList.filter(
       (c) => c.transactionNumber !== customer.transactionNumber
@@ -116,7 +104,6 @@ export const useTransactionTabSelect = () => {
       );
     }
   };
-
   return {
     selectedCustomerList,
     setSelectedCustomerList,

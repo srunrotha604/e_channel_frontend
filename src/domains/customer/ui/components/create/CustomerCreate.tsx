@@ -16,13 +16,11 @@ interface PolicyOption {
   label?: string;
   value?: string;
 }
-
 interface CustomerCreateProps {
   productName?: string;
   project?: ProjectPolicyOption[];
   handleNextStep?: () => void;
 }
-
 const CustomerCreate = (props: CustomerCreateProps) => {
   const { productName, project, handleNextStep } = props;
   const navigate = useNavigate();
@@ -33,7 +31,6 @@ const CustomerCreate = (props: CustomerCreateProps) => {
   const [age, setAge] = useState<string | null>(null);
   const [isUnderage, setIsUnderage] = useState(false);
   const { modalRef, openModal } = useModal();
-
   const {
     duplicateCustomer,
     checkDuplicateCustomer: debouceCheckDuplicateCustomer,
@@ -41,11 +38,9 @@ const CustomerCreate = (props: CustomerCreateProps) => {
     nicPassport: getValues('identifyNumber'),
     customerId: getValues('childrenId'),
   }));
-
   const goBackHandleClick = () => {
     navigate(-1);
   };
-
   const resetHandleClick = () => {
     reset({
       sureName: '',
@@ -68,26 +63,21 @@ const CustomerCreate = (props: CustomerCreateProps) => {
     setAge(null);
     setIsUnderage(false);
   };
-
   const handleDateChange = (
     dateString: string | null,
     onChange: (value: string) => void
   ) => {
     if (!dateString) return;
-
     const result = calculateAge(dateString);
     setAge(result?.ageLabel ?? null);
     setIsUnderage(result?.isUnderage ?? false);
-
     onChange(dateString);
   };
-
   useEffect(() => {
     const formData = getValues();
     if (formData.policy) {
       setPolicyDetails(formData.policy);
     }
-
     if (formData.project) {
       const policies = formData.project?.policies ?? [];
       setPolicy(policies);
@@ -97,7 +87,6 @@ const CustomerCreate = (props: CustomerCreateProps) => {
         policies.some(
           (p: PolicyOption) => String(p.value) === String(formData.policy.value)
         );
-
       if (!stillValid) {
         const first = policies[0] ?? null;
         setPolicyDetails(first);
@@ -108,12 +97,10 @@ const CustomerCreate = (props: CustomerCreateProps) => {
       setPolicyDetails(null);
       setValue('policy', null, { shouldValidate: true });
     }
-
     if (formData.dateOfBirth && formData.dateOfBirth.toDate) {
       handleDateChange(formData.dateOfBirth, () => {});
     }
   }, []);
-
   return (
     <div className="page-wrapper">
       <div className="page-body">
@@ -443,5 +430,4 @@ const CustomerCreate = (props: CustomerCreateProps) => {
     </div>
   );
 };
-
 export default CustomerCreate;

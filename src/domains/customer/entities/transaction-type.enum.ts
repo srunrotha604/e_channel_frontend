@@ -4,7 +4,6 @@ export const TYPE = {
   Single: 'Single',
   Delete: 'Delete',
 };
-
 export const typeOptions = [
   { value: TYPE.All, label: TYPE.All },
   { value: TYPE.Single, label: TYPE.Single },

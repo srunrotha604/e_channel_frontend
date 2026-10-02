@@ -72,5 +72,4 @@ const ExistedPolicyModal = forwardRef<HTMLDivElement, ExistedPolicyModalProps>(
     );
   }
 );
-
 export default ExistedPolicyModal;

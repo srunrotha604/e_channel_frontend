@@ -3,7 +3,6 @@ import LabelValueList from '../../../../../components/common/LabelValueList';
 import TransactionNumber from '../../../../../components/common/TransactionNumber';
 import { convertAge, formatDay } from '../../../../../utils/format-day';
 import ComponentStatus from '../ComponentStatus';
-
 export interface TransactionDetailData {
   status?: string;
   inputDateTime?: string;
@@ -28,11 +27,9 @@ export interface TransactionDetailData {
   parentId?: string;
   openingDate?: string;
 }
-
 interface TransactionDetailProps extends TransactionDetailData {
   children?: ReactNode;
 }
-
 const TransactionDetail = ({
   status,
   inputDateTime,
@@ -181,5 +178,4 @@ const TransactionDetail = ({
     </div>
   );
 };
-
 export default TransactionDetail;

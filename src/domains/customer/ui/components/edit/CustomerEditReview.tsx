@@ -19,7 +19,6 @@ interface CustomerEditReviewProps {
   ) => void;
   productName?: string;
 }
-
 const CustomerEditReview = (props: CustomerEditReviewProps) => {
   const { user, selectedBranch, selectedCompany } = useAuth();
   const { handleBackStep, handleSubmitted, productName } = props;
@@ -29,20 +28,15 @@ const CustomerEditReview = (props: CustomerEditReviewProps) => {
   const { openModal, closeModal, modalRef } = useModal();
   const { hasPermissionProccessTransaction } = useAuth();
   const params = useParams();
-
   const onSubmit = async (data: Record<string, any>) => {
     const isDraft = data.saveDraft === true;
-
     try {
       openSpinner();
-
       const summaryData = buildCustomerEditDto(data, {
         productCode: params.productCode,
         isDraft,
       });
-
       const responseData = await updateCustomerTransaction(summaryData);
-
       delay([
         closeSpinner,
         () => {
@@ -57,18 +51,15 @@ const CustomerEditReview = (props: CustomerEditReviewProps) => {
     } catch (error) {
       delay(() => {
         closeSpinner();
-
         const baseMsg = isDraft
           ? 'Failed to save draft'
           : 'Failed to create record';
-
         if (axios.isAxiosError(error)) {
           handleApiError(error, baseMsg);
         }
       });
     }
   };
-
   return (
     <div className="page-wrapper justify-content-center">
       <div className="page-body">
@@ -143,7 +134,6 @@ const CustomerEditReview = (props: CustomerEditReviewProps) => {
     </div>
   );
 };
-
 interface ReviewDetailData {
   physicalCard?: boolean | string;
   firstName?: string;
@@ -163,7 +153,6 @@ interface ReviewDetailData {
   parentId?: string;
   openingDate?: string;
 }
-
 const ReviewDetail = ({ data }: { data?: ReviewDetailData }) => {
   return (
     <TransactionDetail
@@ -187,5 +176,4 @@ const ReviewDetail = ({ data }: { data?: ReviewDetailData }) => {
     />
   );
 };
-
 export default CustomerEditReview;

@@ -4,7 +4,6 @@ import Modal from '../../../../../components/common/modal';
 import TransactionDetail, {
   type TransactionDetailData,
 } from './CustomerTransactionDetail';
-
 interface TransactionDetailModalProps {
   data?: TransactionDetailData | null;
   actions?: ReactNode;
@@ -77,5 +76,4 @@ const TransactionDetailModal = forwardRef<
     </Modal>
   );
 });
-
 export default TransactionDetailModal;

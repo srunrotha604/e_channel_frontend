@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import Modal from '../components/common/modal';
 import { HttpUtil } from '../utils/http-util';
 import { ROUTE_API } from '../utils/route-util';
-
 interface IssueDateDetailItem {
   sureName?: string;
   firstName?: string;
@@ -12,20 +11,17 @@ interface IssueDateDetailItem {
     issueDate?: string;
   };
 }
-
 interface IssueConfirmationDetail {
   inputter?: string;
   creationDate?: string;
   remark?: string;
 }
-
 interface IssueDateDetailModalProps {
   open?: boolean;
   onClose?: () => void;
   modalRef?: RefObject<HTMLDivElement>;
   item?: IssueDateDetailItem | null;
 }
-
 const IssueDateDetailModal = ({
   open,
   onClose,
@@ -33,10 +29,8 @@ const IssueDateDetailModal = ({
   item,
 }: IssueDateDetailModalProps) => {
   const [detail, setDetail] = useState<IssueConfirmationDetail | null>(null);
-
   useEffect(() => {
     if (!open || !item?.customerIssueDate?.cardNumber) return;
-
     const fetchDetail = async () => {
       try {
         const secureCode = item.customerIssueDate?.cardNumber;
@@ -51,12 +45,9 @@ const IssueDateDetailModal = ({
         console.error('Failed to fetch confirmation:', err);
       }
     };
-
     fetchDetail();
   }, [open, item]);
-
   if (!open || !item) return null;
-
   return (
     <Modal ref={modalRef} title="Date of Issue Card" closeButton>
       <div className="pb-1">
@@ -104,5 +95,4 @@ const IssueDateDetailModal = ({
     </Modal>
   );
 };
-
 export default IssueDateDetailModal;

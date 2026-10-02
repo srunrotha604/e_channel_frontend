@@ -19,13 +19,11 @@ import { HttpUtil } from '../utils/http-util';
 import { ROUTE_API, ROUTE_PATH } from '../utils/route-util';
 import { STORAGE_KEY } from '../utils/storage-key';
 import ModuleContextProvider from './module/ModuleContext';
-
 const logoutHandlers = new Set<() => void>();
 export const registerLogoutHandler = (fn: () => void) => {
   logoutHandlers.add(fn);
   return () => logoutHandlers.delete(fn);
 };
-
 const AuthContext = createContext<AuthContextValue>({
   loading: true,
   hasPermissionProccessTransaction: () => false,
@@ -48,21 +46,17 @@ const AuthContext = createContext<AuthContextValue>({
   passwordStatus: null,
   setPasswordStaus: () => null,
 });
-
 interface PermissionAccessResponse extends PermissionSet {
   driAdmin?: boolean;
 }
-
 const fetchPermissionAccess = async () => {
   const URL = ROUTE_API.operationCustomerAccess;
   return HttpUtil.get<PermissionAccessResponse>(URL);
 };
-
 const fetchUserInfo = async () => {
   const URL = ROUTE_API.getProfile;
   return HttpUtil.get<Profile>(URL);
 };
-
 const AuthContextProvider = ({ children }: { children?: ReactNode }) => {
   const navigate = useNavigate();
   const closeSessionStreamRef = useRef<(() => void) | null>(null);
@@ -91,7 +85,6 @@ const AuthContextProvider = ({ children }: { children?: ReactNode }) => {
     }
     return !!permission?.process?.[execution];
   };
-
   const hasPermissionAccessTransaction = (
     execution: string | string[],
     condition: 'and' | 'or' = 'and'
@@ -104,18 +97,15 @@ const AuthContextProvider = ({ children }: { children?: ReactNode }) => {
     }
     return !!permission?.access?.[execution];
   };
-
   useEffect(() => {
     fetchUser();
     return () => {
       closeSessionStreamRef.current?.();
     };
   }, []);
-
   const startSessionStream = () => {
     closeSessionStreamRef.current?.();
     closeSessionStreamRef.current = null;
-
     const e_chanel_storage = localStorage.getItem(STORAGE_KEY);
     const storedToken = e_chanel_storage
       ? JSON.parse(e_chanel_storage).token
@@ -129,7 +119,6 @@ const AuthContextProvider = ({ children }: { children?: ReactNode }) => {
       navigate(ROUTE_PATH.logout, { replace: true });
     });
   };
-
   const fetchUser = async () => {
     try {
       setLoading(true);
@@ -158,11 +147,9 @@ const AuthContextProvider = ({ children }: { children?: ReactNode }) => {
       setLoading(false);
     }
   };
-
   const selectedCompany = company?.find(
     (item) => item.companyCode === token?.company
   );
-
   const selectedBranch = selectedCompany?.branch?.find(
     (item) => item.branchCode === token?.branch
   );
