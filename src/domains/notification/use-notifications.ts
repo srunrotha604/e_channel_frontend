@@ -6,6 +6,10 @@ import {
   markNotificationRead,
   openNotificationStream,
 } from './interface-adapters';
+import {
+  isNotificationSoundEnabled,
+  playNotificationSound,
+} from './use-cases/notification-sound';
 const PAGE_SIZE = 20;
 export function useNotifications(enabled: boolean, scopeKey: string) {
   const [items, setItems] = useState<NotificationItem[]>([]);
@@ -41,6 +45,9 @@ export function useNotifications(enabled: boolean, scopeKey: string) {
             : [item, ...current].slice(0, PAGE_SIZE)
         );
         setUnreadCount((count) => (item.isRead ? count : count + 1));
+        if (!item.isRead && isNotificationSoundEnabled()) {
+          playNotificationSound();
+        }
       },
     });
   }, [enabled, scopeKey, reload]);

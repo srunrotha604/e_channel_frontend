@@ -1,17 +1,39 @@
-import React from 'react';
-import { IoWarningOutline } from 'react-icons/io5';
+import React, { useState } from 'react';
+import {
+  IoCallOutline,
+  IoKeyOutline,
+  IoLogInOutline,
+  IoLogOutOutline,
+  IoPersonOutline,
+  IoTimeOutline,
+  IoVolumeHighOutline,
+  IoWarningOutline,
+} from 'react-icons/io5';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import companyLogo from '../../../../assets/DaraInsurancePlc.png';
 import userIcon from '../../../../assets/default-user.png';
 import companyLogoFull from '../../../../assets/logo-full.jpg';
+import ToggleSwitch from '../../../../components/common/ToggleSwitch';
 import { useAuth } from '../../../../context/AuthContext';
 import { ROUTE_PATH } from '../../../../utils/route-util';
+import {
+  isNotificationSoundEnabled,
+  setNotificationSoundEnabled,
+} from '../../../notification';
 import NotificationBell from '../../../notification/ui/components/NotificationBell';
 import { performLogout } from '../../use-cases';
 const HeaderPage = () => {
   const { user, clearUser, mode, application, passwordStatus } = useAuth();
+  const [soundEnabled, setSoundEnabled] = useState(isNotificationSoundEnabled);
   const signOut = () => {
     performLogout(clearUser);
+  };
+  const toggleNotificationSound = () => {
+    setSoundEnabled((current) => {
+      const next = !current;
+      setNotificationSoundEnabled(next);
+      return next;
+    });
   };
   const location = useLocation();
   const isAuthenticatePage = !location.pathname.includes(ROUTE_PATH.dashboard);
@@ -118,37 +140,63 @@ const HeaderPage = () => {
                   </div>
                 </div>
                 <div
-                  style={{ zIndex: 9999 }}
+                  style={{ zIndex: 9999, width: 'max-content' }}
                   className="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
                 >
                   {user ? (
                     <>
-                      <Link to={ROUTE_PATH.profile} className="dropdown-item">
+                      <Link
+                        to={ROUTE_PATH.profile}
+                        className="dropdown-item d-flex align-items-center"
+                      >
+                        <IoPersonOutline className="me-2" />
                         Profile
                       </Link>
                       <div className="dropdown-divider" />
-                      <Link to={ROUTE_PATH.loginList} className="dropdown-item">
+                      <Link
+                        to={ROUTE_PATH.loginList}
+                        className="dropdown-item d-flex align-items-center"
+                      >
+                        <IoTimeOutline className="me-2" />
                         Session
                       </Link>
-                      <Link to={ROUTE_PATH.contactUs} className="dropdown-item">
+                      <Link
+                        to={ROUTE_PATH.contactUs}
+                        className="dropdown-item d-flex align-items-center"
+                      >
+                        <IoCallOutline className="me-2" />
                         Contact Us
                       </Link>
                       <Link
                         to={ROUTE_PATH.changePassword}
-                        className="dropdown-item"
+                        className="dropdown-item d-flex align-items-center"
                       >
+                        <IoKeyOutline className="me-2" />
                         Change password
                       </Link>
+                      <div className="dropdown-item d-flex align-items-center justify-content-start">
+                        <IoVolumeHighOutline className="me-2" />
+                        <ToggleSwitch
+                          label="Notification sound"
+                          checked={soundEnabled}
+                          onChange={toggleNotificationSound}
+                        />
+                      </div>
                       <div
-                        className="dropdown-item cursor-pointer"
+                        className="dropdown-item d-flex align-items-center cursor-pointer"
                         onClick={signOut}
                       >
+                        <IoLogOutOutline className="me-2" />
                         Logout
                       </div>
                     </>
                   ) : (
                     <>
-                      <Link to={ROUTE_PATH.login} className="dropdown-item">
+                      <Link
+                        to={ROUTE_PATH.login}
+                        className="dropdown-item d-flex align-items-center"
+                      >
+                        <IoLogInOutline className="me-2" />
                         Login
                       </Link>
                     </>

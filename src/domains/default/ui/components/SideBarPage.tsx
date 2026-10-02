@@ -10,6 +10,7 @@ import type {
   CompanyBranchOption,
   SelectOption,
 } from '../../../../@type/report';
+import '../../../../assets/style/custom_style.css';
 import Modal, { useModal } from '../../../../components/common/modal';
 import { useAuth } from '../../../../context/AuthContext';
 import { useModulePermission } from '../../../../context/module/ModuleContext';
@@ -77,10 +78,10 @@ const SideBarPage = () => {
     );
     return (
       <div
-        className="d-none d-lg-flex ps-2 cursor-pointer align-items-center"
+        className="sm-d-none d-flex ps-2 cursor-pointer align-items-center justify-content-end"
         onClick={openModal}
       >
-        <div style={{ marginRight: '10px' }}>
+        <div style={{ marginRight: '10px' }} className="sidebar_company_logo">
           <img
             src={companyDetails?.companyLogoUrl}
             alt="company-logo"
@@ -91,7 +92,10 @@ const SideBarPage = () => {
           <div className="mt-1 small text-muted">
             {companyDetails?.companyName}
           </div>
-          <div className="mt-1 small text-muted">
+          <div
+            className="mt-1 small text-muted line-clamp-1 sidebar_branch_name"
+            title={BranchDetails?.branchName}
+          >
             {BranchDetails?.branchName}
           </div>
         </div>
