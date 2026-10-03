@@ -13,6 +13,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import companyLogo from '../../../../assets/DaraInsurancePlc.png';
 import userIcon from '../../../../assets/default-user.png';
 import companyLogoFull from '../../../../assets/logo-full.jpg';
+import Modal, { useModal } from '../../../../components/common/modal';
 import ToggleSwitch from '../../../../components/common/ToggleSwitch';
 import { useAuth } from '../../../../context/AuthContext';
 import { ROUTE_PATH } from '../../../../utils/route-util';
@@ -25,7 +26,13 @@ import { performLogout } from '../../use-cases';
 const HeaderPage = () => {
   const { user, clearUser, mode, application, passwordStatus } = useAuth();
   const [soundEnabled, setSoundEnabled] = useState(isNotificationSoundEnabled);
+  const {
+    modalRef: logoutModalRef,
+    openModal: openLogoutModal,
+    closeModal: closeLogoutModal,
+  } = useModal();
   const signOut = () => {
+    closeLogoutModal();
     performLogout(clearUser);
   };
   const toggleNotificationSound = () => {
@@ -184,7 +191,7 @@ const HeaderPage = () => {
                       </div>
                       <div
                         className="dropdown-item d-flex align-items-center cursor-pointer"
-                        onClick={signOut}
+                        onClick={openLogoutModal}
                       >
                         <IoLogOutOutline className="me-2" />
                         Logout
@@ -207,6 +214,23 @@ const HeaderPage = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        ref={logoutModalRef}
+        size="sm"
+        title="Confirm Logout"
+        content={<p className="mb-0">Are you sure you want to logout?</p>}
+        actions={
+          <>
+            <button className="btn btn-secondary" onClick={closeLogoutModal}>
+              Cancel
+            </button>
+            <button className="btn btn-danger" onClick={signOut}>
+              Logout
+            </button>
+          </>
+        }
+      />
     </header>
   );
 };

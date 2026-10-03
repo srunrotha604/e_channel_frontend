@@ -42,7 +42,7 @@ const NotificationBell = () => {
       >
         <IoIosNotificationsOutline size={24} />
         {unreadCount > 0 && (
-          <span className="badge bg-red text-white position-absolute top-0 start-100 translate-middle rounded-pill">
+          <span className="badge bg-red text-white position-absolute -top-2 start-100 translate-middle rounded-pill">
             {unreadCount > 99 ? '99+' : unreadCount}
           </span>
         )}
