@@ -1,6 +1,7 @@
-import type { AxiosRequestConfig, ResponseType } from 'axios';
+import type { AxiosError, AxiosRequestConfig, ResponseType } from 'axios';
 import axios from 'axios';
-import { ROUTE_API } from './route-util';
+import { toast } from 'react-toastify';
+import { ROUTE_API, ROUTE_PATH } from './route-util';
 import { STORAGE_KEY } from './storage-key';
 
 export const valid_token_data = () => {
@@ -64,7 +65,7 @@ interface RefreshTokenResponse {
   message?: string;
 }
 
-export const refreshToken = async () => {
+const refreshToken = async () => {
   const storage = localStorage.getItem(STORAGE_KEY) || '';
   const token_text = JSON.parse(storage);
   if (!storage) {
@@ -104,9 +105,72 @@ export const refreshToken = async () => {
   return alt_fa_token;
 };
 
-type MaybeAxiosResponse<T> = Promise<
-  import('axios').AxiosResponse<T> | undefined
->;
+const httpClient = axios.create({
+  baseURL: ROUTE_API.root,
+});
+
+httpClient.interceptors.request.use((config) => {
+  valid_token_data();
+  const tokenText = readStoredToken();
+  const skipAuth = (config as unknown as { skipAuth?: boolean }).skipAuth;
+  config.headers = {
+    ...config.headers,
+    ...buildHeaders(tokenText, config.data, skipAuth),
+  } as any;
+  return config;
+});
+
+interface RetryQueueItem {
+  resolve: (value?: unknown) => void;
+  reject: (error?: unknown) => void;
+  config: AxiosRequestConfig;
+}
+
+const refreshAndRetryQueue: RetryQueueItem[] = [];
+let isRefreshing = false;
+
+httpClient.interceptors.response.use(
+  (res) => res,
+  async (error: AxiosError) => {
+    const originalRequest = error.config;
+
+    if (error.response?.status !== 401 || !originalRequest) {
+      return Promise.reject(error);
+    }
+
+    if (!isRefreshing) {
+      isRefreshing = true;
+      try {
+        const tokenObj = await refreshToken();
+        originalRequest.headers = {
+          ...originalRequest.headers,
+          authorization: `Bearer ${tokenObj.token}`,
+        } as any;
+
+        refreshAndRetryQueue.forEach(({ config, resolve, reject }) => {
+          httpClient(config).then(resolve).catch(reject);
+        });
+        refreshAndRetryQueue.length = 0;
+        isRefreshing = false;
+
+        return httpClient(originalRequest);
+      } catch (refreshError) {
+        isRefreshing = false;
+        refreshAndRetryQueue.length = 0;
+        localStorage.removeItem(STORAGE_KEY);
+        toast.error('Your session has expired. Please log in again.');
+        window.location.href = ROUTE_PATH.logout;
+        return Promise.reject(refreshError);
+      }
+    }
+
+    return new Promise((resolve, reject) => {
+      refreshAndRetryQueue.push({ config: originalRequest, resolve, reject });
+    });
+  }
+);
+
+type MaybeAxiosResponse<T> = Promise<import('axios').AxiosResponse<T>>;
 
 interface HttpUtilOptions {
   params?: unknown;
@@ -116,30 +180,20 @@ interface HttpUtilOptions {
   [key: string]: unknown;
 }
 
-const request = async <T = unknown,>(
+const request = <T = unknown,>(
   url: string,
   method: string,
   data?: unknown,
   options: HttpUtilOptions = {}
 ): MaybeAxiosResponse<T> => {
-  valid_token_data();
-  const token_text = readStoredToken();
-
   const config: AxiosRequestConfig = {
     ...options,
-    url: import.meta.env.VITE_API_URL + url,
+    url,
     method: method as AxiosRequestConfig['method'],
     data,
-    headers: buildHeaders(
-      token_text,
-      data,
-      options.skipAuth
-    ) as AxiosRequestConfig['headers'],
   };
 
-  return axios<T>(config)
-    .then((res) => res)
-    .catch((res) => res.response);
+  return httpClient<T>(config);
 };
 
 interface HttpUtilFn {

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import type { SelectOption } from '../../../../@type/report';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import {
   createDataEntry,
@@ -25,41 +26,19 @@ const DataEntryCreatePage = () => {
   const [selectedRole, setSelectedRole] = useState('');
   useRequest(fetchDataEntryRoleOptions, {
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200:
-          setOptionRole(res?.data?.role ?? []);
-          break;
-        case 400:
-          toast.error(res?.data?.message);
-          break;
-        case 403:
-          toast.error(res?.data as unknown as string);
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
-      }
+      setOptionRole(res?.data?.role ?? []);
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
   const { run: runCreateDataEntry, loading: createLoading } = useRequest(
     createDataEntry,
     {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            toast.success(res?.data?.message);
-            navigate(ROUTE_PATH.dataEntry);
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(res?.data as unknown as string);
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        toast.success(res?.data?.message);
+        navigate(ROUTE_PATH.dataEntry);
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
   const funcButtonHandleClickExecute = (

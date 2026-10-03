@@ -1,8 +1,8 @@
 import { useRequest } from 'ahooks';
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { ROUTE_PATH } from '../../../../utils/route-util';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { createBranch } from '../../interface-adapters';
 import { buildBranchCreateDto, validateRequiredFields } from '../../use-cases';
 const BranchCreatePage = () => {
@@ -22,21 +22,10 @@ const BranchCreatePage = () => {
     createBranch,
     {
       manual: true,
-      onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            navigate(`${ROUTE_PATH.branch}/${params.key}`);
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(String(res?.data));
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+      onSuccess: () => {
+        navigate(`${ROUTE_PATH.branch}/${params.key}`);
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
   const funcButtonHandleClickExecute = (

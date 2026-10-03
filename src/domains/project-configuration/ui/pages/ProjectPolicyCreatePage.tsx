@@ -11,6 +11,7 @@ import {
   WindowedMenuList,
 } from 'react-windowed-select';
 import type { SelectOption } from '../../../../@type/report';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import type { PolicyOption } from '../../entities';
 import {
@@ -40,21 +41,10 @@ const ProjectPolicyCreatePage = () => {
     {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            toast.success(res?.data?.message);
-            navigate(ROUTE_PATH.projectPolicy(params.key ?? ''));
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(String(res?.data));
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        toast.success(res?.data?.message);
+        navigate(ROUTE_PATH.projectPolicy(params.key ?? ''));
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
   const funcButtonHandleClickExecute = (
@@ -69,21 +59,10 @@ const ProjectPolicyCreatePage = () => {
   };
   useRequest(fetchProjectPolicyOptions, {
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200:
-          setOptionProduct(res?.data?.product ?? []);
-          setArrPolicy(res?.data?.policy ?? []);
-          break;
-        case 400:
-          toast.error(res?.data?.message);
-          break;
-        case 403:
-          toast.error(String(res?.data));
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
-      }
+      setOptionProduct(res?.data?.product ?? []);
+      setArrPolicy(res?.data?.policy ?? []);
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
   const policyHandleChange = (value: SingleValue<PolicyOption>) => {
     {

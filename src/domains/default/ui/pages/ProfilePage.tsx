@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import type { UserProfile } from '../../../../@type/profile';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import {
   fetchCurrentUserProfile,
@@ -28,57 +29,33 @@ const ProfilePage = () => {
   const [roleName, setRoleName] = useState('');
   const { loading: profileLoading } = useRequest(fetchCurrentUserProfile, {
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200:
-          {
-            const profile = res?.data?.userProfile;
-            if (profile) {
-              setArrProfile(profile);
-              setRoleName(res.data.application.roleName);
-              setEmail1(profile.email ?? '');
-              // setEmail2(profile.email2 ?? '');
-              // setPhone1(profile.phone1 ?? '');
-              // setPhone2(profile.phone2 ?? '');
-              // setWebsite1(profile.website1 ?? '');
-              // setWebsite2(profile.website2 ?? '');
-              // setOtherContact(profile.otherContact ?? '');
-              // setAddress1(profile.address1 ?? '');
-              // setAddress2(profile.address2 ?? '');
-              setUserCode(profile.channelUuid ?? '');
-            }
-          }
-          break;
-        case 400:
-          toast.error(res?.statusText ?? '');
-          break;
-        case 403:
-          toast.error(String(res?.data));
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
+      const profile = res?.data?.userProfile;
+      if (profile) {
+        setArrProfile(profile);
+        setRoleName(res.data.application.roleName);
+        setEmail1(profile.email ?? '');
+        // setEmail2(profile.email2 ?? '');
+        // setPhone1(profile.phone1 ?? '');
+        // setPhone2(profile.phone2 ?? '');
+        // setWebsite1(profile.website1 ?? '');
+        // setWebsite2(profile.website2 ?? '');
+        // setOtherContact(profile.otherContact ?? '');
+        // setAddress1(profile.address1 ?? '');
+        // setAddress2(profile.address2 ?? '');
+        setUserCode(profile.channelUuid ?? '');
       }
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
   const { run: uploadAvatar, loading: uploadLoading } = useRequest(
     uploadProfileAvatar,
     {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            toast.success(res?.data?.message ?? '');
-            window.location.reload();
-            break;
-          case 400:
-            toast.error(res?.data?.message ?? '');
-            break;
-          case 403:
-            toast.error(String(res?.data));
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        toast.success(res?.data?.message ?? '');
+        window.location.reload();
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
   const { run: saveProfile, loading: saveLoading } = useRequest(
@@ -86,21 +63,10 @@ const ProfilePage = () => {
     {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            toast.success(res?.data?.message ?? '');
-            window.location.reload();
-            break;
-          case 400:
-            toast.error(res?.data?.message ?? '');
-            break;
-          case 403:
-            toast.error(String(res?.data));
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        toast.success(res?.data?.message ?? '');
+        window.location.reload();
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
   const profileUploadHandleClickExecute = () => {

@@ -8,6 +8,7 @@ import ReactPaginate from 'react-paginate';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Loading from '../../../../components/Loading';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import type { ProjectItem } from '../../entities';
 import { fetchProjectList, useListPagination } from '../../interface-adapters';
@@ -18,20 +19,9 @@ const ProjectPage = () => {
   const [query, setQuery] = useState('');
   const { loading, refresh: refreshList } = useRequest(fetchProjectList, {
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200:
-          setArrList(res?.data?.list ?? []);
-          break;
-        case 400:
-          toast.error(res?.data?.message);
-          break;
-        case 403:
-          toast.error(String(res?.data));
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
-      }
+      setArrList(res?.data?.list ?? []);
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
   const createNewHandleClick = () => {
     navigate(ROUTE_PATH.projectCreate);

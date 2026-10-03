@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import type { SelectOption } from '../../../../@type/report';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import type { UserAccessBranchItem } from '../../entities';
 import {
@@ -39,21 +40,10 @@ const UserAccessBranchPage = () => {
       ),
     {
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            setArrList(res?.data?.list ?? []);
-            setOptions(res?.data?.options ?? []);
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(res?.data as unknown as string);
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        setArrList(res?.data?.list ?? []);
+        setOptions(res?.data?.options ?? []);
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
 
@@ -62,22 +52,11 @@ const UserAccessBranchPage = () => {
     {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            toast.success(res?.data?.message);
-            refreshList();
-            setSelectedValue('');
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(res?.data as unknown as string);
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        toast.success(res?.data?.message);
+        refreshList();
+        setSelectedValue('');
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
 
@@ -86,21 +65,10 @@ const UserAccessBranchPage = () => {
     {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            toast.success(res?.data?.message);
-            refreshList();
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(res?.data as unknown as string);
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        toast.success(res?.data?.message);
+        refreshList();
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
 
@@ -108,21 +76,10 @@ const UserAccessBranchPage = () => {
     useRequest(setDefaultUserAccessBranch, {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            toast.success(res?.data?.message);
-            refreshList();
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(res?.data as unknown as string);
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        toast.success(res?.data?.message);
+        refreshList();
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     });
 
   const addCompanyHandleExecute = () => {

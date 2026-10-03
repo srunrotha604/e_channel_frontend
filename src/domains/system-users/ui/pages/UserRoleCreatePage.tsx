@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import type { SelectOption } from '../../../../@type/report';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import {
   createUserRole,
@@ -30,20 +31,9 @@ const UserRoleCreatePage = () => {
 
   useRequest(() => fetchApplicationOptions(params.key || ''), {
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200:
-          setOptionApplication(res?.data?.application ?? []);
-          break;
-        case 400:
-          toast.error(res?.data?.message);
-          break;
-        case 403:
-          toast.error(res?.data as unknown as string);
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
-      }
+      setOptionApplication(res?.data?.application ?? []);
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
 
   const { run: runCreateUserRole, loading: createLoading } = useRequest(
@@ -51,21 +41,10 @@ const UserRoleCreatePage = () => {
     {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            toast.success(res?.data?.message);
-            navigate(ROUTE_PATH.userRole(params.key ?? ''));
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(res?.data as unknown as string);
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        toast.success(res?.data?.message);
+        navigate(ROUTE_PATH.userRole(params.key ?? ''));
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
 
@@ -74,20 +53,9 @@ const UserRoleCreatePage = () => {
     {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            setOptionRole(res?.data?.options ?? []);
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(res?.data as unknown as string);
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        setOptionRole(res?.data?.options ?? []);
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
 

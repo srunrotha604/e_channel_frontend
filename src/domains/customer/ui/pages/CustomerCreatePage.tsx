@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import type { ProductOption, ProjectPolicyOption } from '../../entities';
 import { fetchProductAndPoliciesBySequenceCode } from '../../interface-adapters';
@@ -29,25 +30,14 @@ const CustomerCreatePage = () => {
 
   useRequest(() => fetchProductAndPoliciesBySequenceCode(params.key ?? ''), {
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200:
-          setArrProduct(
-            res?.data?.list?.find(
-              (item) => item?.productsequenceCode === params.key
-            )
-          );
-          setArrProject(res?.data?.category ?? []);
-          break;
-        case 400:
-          toast.error(res?.data?.message ?? '');
-          break;
-        case 403:
-          toast.error(String(res?.data));
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
-      }
+      setArrProduct(
+        res?.data?.list?.find(
+          (item) => item?.productsequenceCode === params.key
+        )
+      );
+      setArrProject(res?.data?.category ?? []);
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
 
   const getActiveStep = () => {

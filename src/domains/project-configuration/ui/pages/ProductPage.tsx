@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import ActionConfirmationModal from '../../../../components/common/ActionConfirmationModal';
 import { useModal } from '../../../../components/common/modal/index';
 import Loading from '../../../../components/Loading';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import type { ProductItem } from '../../entities';
 import {
@@ -23,20 +24,9 @@ const ProductPage = () => {
   const [transactionCode, setTransationCode] = useState('');
   const { loading, refresh: refreshList } = useRequest(fetchProductList, {
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200:
-          setArrList(res?.data?.list ?? []);
-          break;
-        case 400:
-          toast.error(res?.data?.message);
-          break;
-        case 403:
-          toast.error(String(res?.data));
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
-      }
+      setArrList(res?.data?.list ?? []);
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
   const handleViewClick = (item: ProductItem) => {
     setArrDetails(item);
@@ -44,22 +34,11 @@ const ProductPage = () => {
   const { run: runDeleteProduct } = useRequest(deleteProduct, {
     manual: true,
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200:
-          toast.success(res?.data?.message);
-          refreshList();
-          closeModal();
-          break;
-        case 400:
-          toast.error(res?.data?.message);
-          break;
-        case 403:
-          toast.error(String(res?.data));
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
-      }
+      toast.success(res?.data?.message);
+      refreshList();
+      closeModal();
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
   const deleteRecordHandleClick = () => {
     runDeleteProduct({ transactionCode });

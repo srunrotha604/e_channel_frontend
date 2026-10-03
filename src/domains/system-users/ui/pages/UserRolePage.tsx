@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Loading from '../../../../components/Loading';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import type { UserRoleItem } from '../../entities';
 import { deleteUserRole, fetchUserRoleList } from '../../interface-adapters';
@@ -19,20 +20,9 @@ const UserRolePage = () => {
     () => fetchUserRoleList(params.key || ''),
     {
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            setArrList(res?.data?.item ?? []);
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(res?.data as unknown as string);
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        setArrList(res?.data?.item ?? []);
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
   const { run: runDeleteUserRole, loading: deleteLoading } = useRequest(
@@ -40,21 +30,10 @@ const UserRolePage = () => {
     {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            toast.success(res?.data?.message);
-            refreshList();
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(res?.data as unknown as string);
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        toast.success(res?.data?.message);
+        refreshList();
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
   const funcRemoveHandleClickExecute = () => {

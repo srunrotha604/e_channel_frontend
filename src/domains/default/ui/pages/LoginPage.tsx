@@ -1,7 +1,12 @@
 import { useRequest } from 'ahooks';
+import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../../context/AuthContext';
+import {
+  getErrorMessage,
+  getErrorStatus,
+} from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import { STORAGE_KEY } from '../../../../utils/storage-key';
 import { login } from '../../interface-adapters';
@@ -18,31 +23,30 @@ const LoginPage = () => {
   const { run: runLogin, loading: loginLoading } = useRequest(login, {
     manual: true,
     onSuccess: async (res) => {
-      switch (res?.status) {
-        case 200: {
-          const alt_fa_token = {
-            token: res?.data?.accessToken,
-            refreshToken: res?.data?.refreshToken,
-            company: res?.data?.company,
-            branch: res?.data?.branch,
-          };
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(alt_fa_token));
-          await fetchUser();
-          if (location?.state?.from?.pathname) {
-            navigate(location?.state?.from?.pathname);
-          } else {
-            navigate(ROUTE_PATH.dashboard);
-          }
-          break;
-        }
-        case 400:
-          setInvalidFeedBack(res?.data?.error ?? res?.data?.message ?? '');
-          break;
-        case 403:
-          setInvalidFeedBack(String(res?.data));
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
+      const alt_fa_token = {
+        token: res?.data?.accessToken,
+        refreshToken: res?.data?.refreshToken,
+        company: res?.data?.company,
+        branch: res?.data?.branch,
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(alt_fa_token));
+      await fetchUser();
+      if (location?.state?.from?.pathname) {
+        navigate(location?.state?.from?.pathname);
+      } else {
+        navigate(ROUTE_PATH.dashboard);
+      }
+    },
+    onError: (error) => {
+      const status = getErrorStatus(error);
+      if (status === 400) {
+        setInvalidFeedBack(getErrorMessage(error));
+      } else if (status === 403) {
+        setInvalidFeedBack(
+          axios.isAxiosError(error) ? String(error.response?.data) : ''
+        );
+      } else {
+        navigate(ROUTE_PATH.error404);
       }
     },
   });

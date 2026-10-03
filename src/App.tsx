@@ -1,7 +1,6 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import './App.css';
-import AxiosInterceptor from './components/AxiosInterceptor';
 import AuthContextProvider from './context/AuthContext';
 import AllRoutes from './router/index.tsx';
 
@@ -24,11 +23,9 @@ function App() {
         basename={import.meta.env.VITE_BASE_URL}
         future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
       >
-        <AxiosInterceptor>
-          <AuthContextProvider>
-            <AllRoutes />
-          </AuthContextProvider>
-        </AxiosInterceptor>
+        <AuthContextProvider>
+          <AllRoutes />
+        </AuthContextProvider>
       </Router>
     </>
   );

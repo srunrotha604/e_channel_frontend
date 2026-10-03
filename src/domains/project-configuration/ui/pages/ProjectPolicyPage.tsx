@@ -4,6 +4,7 @@ import ReactPaginate from 'react-paginate';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Loading from '../../../../components/Loading';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import type { ProjectPolicyItem } from '../../entities';
 import {
@@ -22,20 +23,9 @@ const ProjectPolicyPage = () => {
     () => fetchProjectPolicyList(params.key ?? ''),
     {
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            setArrList(res?.data?.list ?? []);
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(String(res?.data));
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        setArrList(res?.data?.list ?? []);
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
   const { run: runDeleteProjectPolicy, loading: deleteLoading } = useRequest(
@@ -43,21 +33,10 @@ const ProjectPolicyPage = () => {
     {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            toast.success(res?.data?.message);
-            refreshList();
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(String(res?.data));
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        toast.success(res?.data?.message);
+        refreshList();
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
   const funcRemoveHandleClickExecute = () => {

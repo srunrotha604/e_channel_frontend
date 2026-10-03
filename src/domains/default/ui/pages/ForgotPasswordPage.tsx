@@ -4,6 +4,11 @@ import { AiOutlineCheckCircle } from 'react-icons/ai';
 import { PatternFormat } from 'react-number-format';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import {
+  getErrorMessage,
+  getErrorStatus,
+  handleRequestStatusError,
+} from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import type { SecurityPolicy } from '../../entities';
 import {
@@ -50,32 +55,31 @@ const ForgotPasswordPage = () => {
     {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            setShowSendEmail(false);
-            setSuccess(false);
-            setConfirmCode('');
-            setConfirmKey(res?.data?.token ?? '');
-            setConfirmCodeMessage(
-              'Enter the code we sent to your email address at'
-            );
-            setAddressMessage(email);
-            setViaSMSCode(res?.data?.smsToken ?? '');
-            setShowSMSResend(res.data.forgotPasswordViaSMS || false);
-            setSecurityPolicy(res?.data?.securityPolicy);
-            setInvalidFeedBack('');
-            break;
-          case 400:
-            setShowSendEmail(true);
-            setSuccess(false);
-            setInvalidFeedBack(res?.data?.error ?? res?.data?.message ?? '');
-            toast.error(String(res?.data?.error ?? res?.data?.message ?? ''));
-            break;
-          case 403:
-            toast.error(String(res?.data));
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
+        setShowSendEmail(false);
+        setSuccess(false);
+        setConfirmCode('');
+        setConfirmKey(res?.data?.token ?? '');
+        setConfirmCodeMessage(
+          'Enter the code we sent to your email address at'
+        );
+        setAddressMessage(email);
+        setViaSMSCode(res?.data?.smsToken ?? '');
+        setShowSMSResend(res.data.forgotPasswordViaSMS || false);
+        setSecurityPolicy(res?.data?.securityPolicy);
+        setInvalidFeedBack('');
+      },
+      onError: (error) => {
+        const status = getErrorStatus(error);
+        if (status === 400) {
+          setShowSendEmail(true);
+          setSuccess(false);
+          const message = getErrorMessage(error);
+          setInvalidFeedBack(message);
+          toast.error(message);
+        } else if (status === 403) {
+          handleRequestStatusError(error, navigate);
+        } else {
+          navigate(ROUTE_PATH.error404);
         }
       },
     }
@@ -86,20 +90,18 @@ const ForgotPasswordPage = () => {
     {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            setSuccess(true);
-            setConfirmChangeKey(res?.data?.token ?? '');
-            break;
-          case 400:
-            setSuccess(false);
-            setInvalidFeedBack(res?.data?.error ?? res?.data?.message ?? '');
-            break;
-          case 403:
-            toast.error(String(res?.data));
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
+        setSuccess(true);
+        setConfirmChangeKey(res?.data?.token ?? '');
+      },
+      onError: (error) => {
+        const status = getErrorStatus(error);
+        if (status === 400) {
+          setSuccess(false);
+          setInvalidFeedBack(getErrorMessage(error));
+        } else if (status === 403) {
+          handleRequestStatusError(error, navigate);
+        } else {
+          navigate(ROUTE_PATH.error404);
         }
       },
     }
@@ -109,26 +111,20 @@ const ForgotPasswordPage = () => {
     {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            setConfirmCodeMessage(
-              'Enter the code we sent to your phone number'
-            );
-            setAddressMessage(phoneNumber);
-            setShowSMSResend(true);
-            {
-              res?.data?.attempt == 3 ? setPhoneNumber('') : '';
-            }
-            break;
-          case 400:
-            setSuccess(false);
-            setInvalidFeedBack(res?.data?.error ?? res?.data?.message ?? '');
-            break;
-          case 403:
-            toast.error(String(res?.data));
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
+        setConfirmCodeMessage('Enter the code we sent to your phone number');
+        setAddressMessage(phoneNumber);
+        setShowSMSResend(true);
+        if (res?.data?.attempt == 3) setPhoneNumber('');
+      },
+      onError: (error) => {
+        const status = getErrorStatus(error);
+        if (status === 400) {
+          setSuccess(false);
+          setInvalidFeedBack(getErrorMessage(error));
+        } else if (status === 403) {
+          handleRequestStatusError(error, navigate);
+        } else {
+          navigate(ROUTE_PATH.error404);
         }
       },
     }
@@ -137,21 +133,10 @@ const ForgotPasswordPage = () => {
     confirmForgotPasswordChange,
     {
       manual: true,
-      onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            setResetSuccess(true);
-            break;
-          case 400:
-            toast.error(res?.data?.error ?? res?.data?.message ?? '');
-            break;
-          case 403:
-            toast.error(String(res?.data));
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+      onSuccess: () => {
+        setResetSuccess(true);
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
   const funcButtonHandleClickExecute = (

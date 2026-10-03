@@ -2,8 +2,7 @@ import { useRequest } from 'ahooks';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { ROUTE_PATH } from '../../../../utils/route-util';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import type {
   ProductOption,
   ProjectPolicyOption,
@@ -32,38 +31,16 @@ const BatchRegisterPage = () => {
   const [productCode, setProductCode] = useState('');
   useRequest(fetchProductList, {
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200:
-          setArrProduct(res?.data?.list ?? []);
-          break;
-        case 400:
-          toast.error(res?.data?.message ?? '');
-          break;
-        case 403:
-          toast.error(String(res?.data));
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
-      }
+      setArrProduct(res?.data?.list ?? []);
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
   const { run: policyList } = useRequest(fetchPoliciesByProductCode, {
     manual: true,
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200:
-          setArrProject(res?.data?.category ?? []);
-          break;
-        case 400:
-          toast.error(res?.data?.message ?? '');
-          break;
-        case 403:
-          toast.error(String(res?.data));
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
-      }
+      setArrProject(res?.data?.category ?? []);
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
   const getActiveStep = () => {
     switch (step) {

@@ -4,6 +4,7 @@ import ReactPaginate from 'react-paginate';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Loading from '../../../../components/Loading';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import type { BranchProjectListItem } from '../../entities';
 import {
@@ -33,21 +34,10 @@ const BranchProjectPage = () => {
     {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            refreshList();
-            toast.success(res?.data?.message);
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(String(res?.data));
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        refreshList();
+        toast.success(res?.data?.message);
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
   const deleteProjectHandleClickExecute = () => {

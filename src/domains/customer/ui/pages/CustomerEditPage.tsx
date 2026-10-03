@@ -2,9 +2,8 @@ import { useRequest } from 'ahooks';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import Spinner, { useSpinner } from '../../../../components/common/Spinner';
-import { ROUTE_PATH } from '../../../../utils/route-util';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import type { ProjectPolicyOption } from '../../entities';
 import { fetchPoliciesByProductCode } from '../../interface-adapters';
 import CostomerTransationSubmit from '../components/create/CustomerTransationSubmit';
@@ -27,20 +26,9 @@ const CustomerEditPage = () => {
   const navigate = useNavigate();
   useRequest(() => fetchPoliciesByProductCode(params.productCode ?? ''), {
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200:
-          setArrProject(res?.data?.category ?? []);
-          break;
-        case 400:
-          toast.error(res?.data?.message ?? '');
-          break;
-        case 403:
-          toast.error(String(res?.data));
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
-      }
+      setArrProject(res?.data?.category ?? []);
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
 
   const { spinnerState, openSpinner, closeSpinner } = useSpinner();

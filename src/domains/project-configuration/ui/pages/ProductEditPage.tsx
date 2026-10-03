@@ -2,6 +2,7 @@ import { useRequest } from 'ahooks';
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import { fetchProductByKey, updateProduct } from '../../interface-adapters';
 import { buildProductEditDto, validateRequiredFields } from '../../use-cases';
@@ -13,39 +14,21 @@ const ProductEditPage = () => {
   const [productName, setProductName] = useState('');
   useRequest(() => fetchProductByKey(params.key ?? ''), {
     onSuccess: (res) => {
-      if (res?.status === 200) {
-        const data = res?.data?.list?.[0];
-        setProductCode(data?.productCode ?? '');
-        setProductName(data?.productName ?? '');
-      } else if (res?.status === 400) {
-        toast.error(res?.data?.message);
-      } else if (res?.status === 403) {
-        toast.error(String(res?.data));
-      } else {
-        navigate(ROUTE_PATH.error404);
-      }
+      const data = res?.data?.list?.[0];
+      setProductCode(data?.productCode ?? '');
+      setProductName(data?.productName ?? '');
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
   const { run: runUpdateProduct, loading: updateLoading } = useRequest(
     updateProduct,
     {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            toast.success(res?.data?.message);
-            navigate(ROUTE_PATH.product);
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(String(res?.data));
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        toast.success(res?.data?.message);
+        navigate(ROUTE_PATH.product);
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
   const funcButtonHandleClickExecute = (

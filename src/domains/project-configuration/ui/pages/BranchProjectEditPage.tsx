@@ -2,8 +2,8 @@ import { useRequest } from 'ahooks';
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Select, { MultiValue, SingleValue } from 'react-select';
-import { toast } from 'react-toastify';
 import type { SelectOption } from '../../../../@type/report';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import type { BranchProjectOption } from '../../entities';
 import {
@@ -27,53 +27,25 @@ const BranchProjectEditPage = () => {
   const [branch, setBranch] = useState('');
   useRequest(() => fetchBranchProjectDetail(params.key ?? ''), {
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200:
-          {
-            const project = res?.data?.options ?? [];
-            const projectFamily = res?.data?.list?.[0]?.projectFamily ?? '';
-            setOptionProject(project);
-            setSelectdProject(projectFamily);
-            setBranch(res?.data?.list?.[0]?.branchFamily ?? '');
-            setOptionPolicies(
-              filterPoliciesByProjectKey(project, projectFamily)
-            );
-            setSelectdPolicies(
-              parseCsvList(res?.data?.list?.[0]?.policies ?? '')
-            );
-          }
-          break;
-        case 400:
-          toast.error(res?.data?.message);
-          break;
-        case 403:
-          toast.error(String(res?.data));
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
-      }
+      const project = res?.data?.options ?? [];
+      const projectFamily = res?.data?.list?.[0]?.projectFamily ?? '';
+      setOptionProject(project);
+      setSelectdProject(projectFamily);
+      setBranch(res?.data?.list?.[0]?.branchFamily ?? '');
+      setOptionPolicies(filterPoliciesByProjectKey(project, projectFamily));
+      setSelectdPolicies(parseCsvList(res?.data?.list?.[0]?.policies ?? ''));
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
 
   const { run: runUpdateBranchProject, loading: updateLoading } = useRequest(
     updateBranchProject,
     {
       manual: true,
-      onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            navigate(ROUTE_PATH.branchProject(branch));
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(String(res?.data));
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+      onSuccess: () => {
+        navigate(ROUTE_PATH.branchProject(branch));
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
   const funcButtonHandleClickExecute = (

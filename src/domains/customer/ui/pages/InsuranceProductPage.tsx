@@ -1,7 +1,7 @@
 import { useRequest } from 'ahooks';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import type { ProductOption } from '../../entities';
 import { fetchProductList } from '../../interface-adapters';
@@ -11,20 +11,9 @@ const InsuranceProductPage = () => {
   const [arrProduct, setArrProduct] = useState<ProductOption[]>([]);
   useRequest(fetchProductList, {
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200:
-          setArrProduct(res?.data?.list ?? []);
-          break;
-        case 400:
-          toast.error(res?.data?.message ?? '');
-          break;
-        case 403:
-          toast.error(String(res?.data));
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
-      }
+      setArrProduct(res?.data?.list ?? []);
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
 
   const productHandleClick = (productCode?: string) => {

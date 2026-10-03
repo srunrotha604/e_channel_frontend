@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import type { SelectOption } from '../../../../@type/report';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import {
   fetchUserAccessDetail,
@@ -30,29 +31,16 @@ const UserAccessStatusPage = () => {
     () => fetchUserAccessDetail(params.userCode ?? ''),
     {
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            setValue(res?.data?.role?.[0]?.value ?? '');
-            setOptionsAccess(res?.data?.access ?? []);
-            setOptionsProcess(res?.data?.access ?? []);
-            setAdmin(res?.data?.role?.[0]?.keyCode ?? '');
-            setSelectedAccessValue(
-              parseCsvList(res?.data?.role?.[0]?.label ?? '')
-            );
-            setSelectedProcessValue(
-              parseCsvList(res?.data?.role?.[0]?.labelSecond ?? '')
-            );
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(res?.data as unknown as string);
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        setValue(res?.data?.role?.[0]?.value ?? '');
+        setOptionsAccess(res?.data?.access ?? []);
+        setOptionsProcess(res?.data?.access ?? []);
+        setAdmin(res?.data?.role?.[0]?.keyCode ?? '');
+        setSelectedAccessValue(parseCsvList(res?.data?.role?.[0]?.label ?? ''));
+        setSelectedProcessValue(
+          parseCsvList(res?.data?.role?.[0]?.labelSecond ?? '')
+        );
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
 
@@ -61,21 +49,10 @@ const UserAccessStatusPage = () => {
     {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            toast.success(res?.data?.message);
-            refreshDetail();
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(res?.data as unknown as string);
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        toast.success(res?.data?.message);
+        refreshDetail();
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
 

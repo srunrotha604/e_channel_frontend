@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Select, { SingleValue } from 'react-select';
 import { toast } from 'react-toastify';
 import type { ProductSelectOption } from '../../../../@type/report';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import { createProduct, fetchProductOptions } from '../../interface-adapters';
 import { buildProductCreateDto, validateRequiredFields } from '../../use-cases';
@@ -16,41 +17,19 @@ const ProductCreatePage = () => {
   const [selectedProduct, setSelectedProduct] = useState('');
   useRequest(fetchProductOptions, {
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200:
-          setProductList(res?.data?.options ?? []);
-          break;
-        case 400:
-          toast.error(res?.data?.message);
-          break;
-        case 403:
-          toast.error(String(res?.data));
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
-      }
+      setProductList(res?.data?.options ?? []);
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
   const { run: runCreateProduct, loading: createLoading } = useRequest(
     createProduct,
     {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            toast.success(res?.data?.message);
-            navigate(ROUTE_PATH.product);
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(String(res?.data));
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        toast.success(res?.data?.message);
+        navigate(ROUTE_PATH.product);
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
   const funcButtonHandleClickExecute = (

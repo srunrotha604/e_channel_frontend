@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import EyeIcon from '../../../../components/Icons/EyeIcon';
 import EyeOffIcon from '../../../../components/Icons/EyeOffIcon';
 import { useAuth } from '../../../../context/AuthContext';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import {
   changePassword,
@@ -44,49 +45,24 @@ const ChangePasswordPage = () => {
   const newPasswordValue = watch('newPassword') ?? '';
   const { refresh: refreshProfile } = useRequest(fetchCurrentUserProfile, {
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200:
-          {
-            const profile = res?.data?.userProfile;
-            setUserUrl(profile?.avatarUrl ?? '');
-            setUserName(`${profile.firstName} ${profile.lastName}` || '');
-            setPasswordStaus(res.data.passwordStatus);
-          }
-          break;
-        case 400:
-          toast.error(res?.statusText ?? '');
-          break;
-        case 403:
-          toast.error(String(res?.data));
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
-      }
+      const profile = res?.data?.userProfile;
+      setUserUrl(profile?.avatarUrl ?? '');
+      setUserName(`${profile.firstName} ${profile.lastName}` || '');
+      setPasswordStaus(res.data.passwordStatus);
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
   const { run: runChangePassword } = useRequest(changePassword, {
     manual: true,
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200: {
-          refreshProfile();
-          toast.success(res?.data?.message ?? 'Password changed successfully', {
-            autoClose: 50,
-            pauseOnHover: false,
-            onClose: () => navigate(ROUTE_PATH.dashboard),
-          });
-          break;
-        }
-        case 400:
-          toast.error(res?.data?.message ?? '');
-          break;
-        case 403:
-          toast.error(String(res?.data));
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
-      }
+      refreshProfile();
+      toast.success(res?.data?.message ?? 'Password changed successfully', {
+        autoClose: 50,
+        pauseOnHover: false,
+        onClose: () => navigate(ROUTE_PATH.dashboard),
+      });
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
   const onSubmit = (data: ChangePasswordFormValues) => {
     runChangePassword(

@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import type { SelectOption } from '../../../../@type/report';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import {
   fetchUserByCode,
@@ -23,43 +24,19 @@ const UserEditPage = () => {
   const [selectedRole, setSelectedRole] = useState('');
   useRequest(() => fetchUserByCode(params.key ?? ''), {
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200: {
-          const dataList = res?.data?.list?.[0];
-          setTextEmail(dataList?.email ?? '');
-          setTextFirstName(dataList?.givenName ?? '');
-          setTextLastName(dataList?.sureName ?? '');
-          break;
-        }
-        case 400:
-          toast.error(res?.data?.message);
-          break;
-        case 403:
-          toast.error(res?.data as unknown as string);
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
-      }
+      const dataList = res?.data?.list?.[0];
+      setTextEmail(dataList?.email ?? '');
+      setTextFirstName(dataList?.givenName ?? '');
+      setTextLastName(dataList?.sureName ?? '');
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
 
   useRequest(fetchUserRoleOptions, {
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200:
-          setOptionBranch(res?.data?.role ?? []);
-
-          break;
-        case 400:
-          toast.error(res?.data?.message);
-          break;
-        case 403:
-          toast.error(res?.data as unknown as string);
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
-      }
+      setOptionBranch(res?.data?.role ?? []);
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
 
   const { run: runUpdateUser, loading: updateLoading } = useRequest(
@@ -67,21 +44,10 @@ const UserEditPage = () => {
     {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            toast.success(res?.data?.message);
-            navigate(ROUTE_PATH.user);
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(res?.data as unknown as string);
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        toast.success(res?.data?.message);
+        navigate(ROUTE_PATH.user);
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
 

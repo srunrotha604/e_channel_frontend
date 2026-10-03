@@ -5,15 +5,14 @@ import type { FileWithPath } from 'react-dropzone';
 import { useDropzone } from 'react-dropzone';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { MdDownload } from 'react-icons/md';
-import { redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
-import { toast } from 'react-toastify';
 import ExcelIcon from '../../../../../assets/Excel.svg';
 import ActionConfirmationModal from '../../../../../components/common/ActionConfirmationModal';
 import Button from '../../../../../components/common/Button';
 import { useModal } from '../../../../../components/common/modal/index';
 import Image from '../../../../../components/Image';
-import { ROUTE_PATH } from '../../../../../utils/route-util';
+import { handleRequestStatusError } from '../../../../../utils/handleRequestStatusError';
 import type { ProjectPolicyOption } from '../../../../customer/entities';
 import type { BatchCustomerListResult } from '../../../entities';
 import { uploadBatchExcel } from '../../../interface-adapters';
@@ -28,6 +27,7 @@ interface ExcelUploadStepProps {
 }
 const ExcelUploadStep = (props: ExcelUploadStepProps) => {
   const { project, handleReviewStep, handleGoBack, product } = props;
+  const navigate = useNavigate();
   const [policy, setPolicy] = useState<
     NonNullable<ProjectPolicyOption['policies']>
   >([]);
@@ -95,20 +95,9 @@ const ExcelUploadStep = (props: ExcelUploadStepProps) => {
   const { run: runUploadBatchExcel, loading } = useRequest(uploadBatchExcel, {
     manual: true,
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200:
-          handleReviewStep(res?.data ?? {}, product);
-          break;
-        case 400:
-          toast.error(res?.data?.message ?? '');
-          break;
-        case 403:
-          toast.error(String(res?.data));
-          break;
-        default:
-          redirect(ROUTE_PATH.error404);
-      }
+      handleReviewStep(res?.data ?? {}, product);
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
   const onSubmit = (data: {
     project?: { value?: string };

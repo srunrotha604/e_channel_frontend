@@ -2,6 +2,7 @@ import { useRequest } from 'ahooks';
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import { fetchProjectByKey, updateProject } from '../../interface-adapters';
 import { buildProjectEditDto, validateRequiredFields } from '../../use-cases';
@@ -12,44 +13,20 @@ const ProjectEditPage = () => {
   const [projectName, setProjectName] = useState('');
   useRequest(() => fetchProjectByKey(params.key ?? ''), {
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200:
-          {
-            const data = res?.data?.list?.[0];
-            setProjectName(data?.projectName ?? '');
-          }
-          break;
-        case 400:
-          toast.error(res?.data?.message);
-          break;
-        case 403:
-          toast.error(String(res?.data));
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
-      }
+      const data = res?.data?.list?.[0];
+      setProjectName(data?.projectName ?? '');
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
   const { run: runUpdateProject, loading: updateLoading } = useRequest(
     updateProject,
     {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            toast.success(res?.data?.message);
-            navigate(ROUTE_PATH.project);
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(String(res?.data));
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        toast.success(res?.data?.message);
+        navigate(ROUTE_PATH.project);
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
   const funcButtonHandleClickExecute = (

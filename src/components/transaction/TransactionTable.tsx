@@ -227,24 +227,19 @@ const TransactionTableInner = <T extends TransactionLike>(
       setLoading(false);
     }
   };
-  const getListDetails = (transactionCode?: string) => {
-    return HttpUtil.get<ListResponse<T>>(
-      `${ROUTE_API.operationCustomer}?transactionCode=` + transactionCode
-    ).then((res) => {
-      switch (res?.status) {
-        case 200: {
-          const item = res?.data?.list?.[0];
-          const mapped = item && mapItem ? mapItem(item) : item;
-          setArrDetails(mapped ?? ({} as T));
-          return mapped;
-        }
-        case 400:
-          showErrorResponseMessage(res);
-          break;
-        default:
-          break;
-      }
-    });
+  const getListDetails = async (transactionCode?: string) => {
+    try {
+      const res = await HttpUtil.get<ListResponse<T>>(
+        `${ROUTE_API.operationCustomer}?transactionCode=` + transactionCode
+      );
+      const item = res?.data?.list?.[0];
+      const mapped = item && mapItem ? mapItem(item) : item;
+      setArrDetails(mapped ?? ({} as T));
+      return mapped;
+    } catch (error) {
+      showErrorResponseMessage(error);
+      return undefined;
+    }
   };
   const handleShowTransactionDetail = async (item: T) => {
     const result = await getListDetails(item.transactionNumber);

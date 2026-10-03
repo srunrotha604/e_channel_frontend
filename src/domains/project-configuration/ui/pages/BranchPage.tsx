@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import type { SelectOption } from '../../../../@type/report';
 import Modal, { useModal } from '../../../../components/common/modal';
 import Loading from '../../../../components/Loading';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import type { BranchItem } from '../../entities';
 import {
@@ -26,21 +27,10 @@ const BranchPage = () => {
   const { modalRef, openModal, closeModal } = useModal();
   const { loading, refresh: refreshList } = useRequest(fetchBranchList, {
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200:
-          setArrList(res?.data?.list ?? []);
-          setListUser(res?.data?.user ?? []);
-          break;
-        case 400:
-          toast.error(res?.data?.message);
-          break;
-        case 403:
-          toast.error(String(res?.data));
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
-      }
+      setArrList(res?.data?.list ?? []);
+      setListUser(res?.data?.user ?? []);
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
   const createNewHandleClick = () => {
     navigate(ROUTE_PATH.branchCreate);
@@ -50,22 +40,11 @@ const BranchPage = () => {
     {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            toast.success(res?.data?.message);
-            closeModal();
-            refreshList();
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(String(res?.data));
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        toast.success(res?.data?.message);
+        closeModal();
+        refreshList();
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
   const funcButtonHandleClickExecute = (

@@ -2,8 +2,8 @@ import { useRequest } from 'ahooks';
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Select, { MultiValue, SingleValue } from 'react-select';
-import { toast } from 'react-toastify';
 import type { SelectOption } from '../../../../@type/report';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import type { BranchProjectOption } from '../../entities';
 import {
@@ -25,40 +25,18 @@ const BranchProjectCreatePage = () => {
   const [selectedPolicies, setSelectdPolicies] = useState<string[]>([]);
   useRequest(() => fetchBranchProjectOptions(params.key ?? ''), {
     onSuccess: (res) => {
-      switch (res?.status) {
-        case 200:
-          setOptionProject(res?.data?.options ?? []);
-          break;
-        case 400:
-          toast.error(res?.data?.message);
-          break;
-        case 403:
-          toast.error(String(res?.data));
-          break;
-        default:
-          navigate(ROUTE_PATH.error404);
-      }
+      setOptionProject(res?.data?.options ?? []);
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
   const { run: runCreateBranchProject, loading: createLoading } = useRequest(
     createBranchProject,
     {
       manual: true,
-      onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            navigate(ROUTE_PATH.branchProject(params.key ?? ''));
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(String(res?.data));
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+      onSuccess: () => {
+        navigate(ROUTE_PATH.branchProject(params.key ?? ''));
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
   const funcButtonHandleClickExecute = (

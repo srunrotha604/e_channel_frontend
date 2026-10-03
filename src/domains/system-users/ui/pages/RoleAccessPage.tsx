@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import type { SelectOption } from '../../../../@type/report';
 import Modal, { useModal } from '../../../../components/common/modal';
 import Loading from '../../../../components/Loading';
+import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import type { RoleAccessItem } from '../../entities';
 import {
@@ -28,11 +29,10 @@ const RoleAccessPage = () => {
 
   const { loading, refresh: refreshList } = useRequest(fetchRoleAccessList, {
     onSuccess: (res) => {
-      if (res?.status == 200) {
-        setArrList(res?.data?.list ?? []);
-        setListAccess(res?.data?.access ?? []);
-      }
+      setArrList(res?.data?.list ?? []);
+      setListAccess(res?.data?.access ?? []);
     },
+    onError: (error) => handleRequestStatusError(error, navigate),
   });
 
   const { run: runUpdateRoleAccess, loading: updateLoading } = useRequest(
@@ -40,22 +40,11 @@ const RoleAccessPage = () => {
     {
       manual: true,
       onSuccess: (res) => {
-        switch (res?.status) {
-          case 200:
-            toast.success(res?.data?.message);
-            closeModal();
-            refreshList();
-            break;
-          case 400:
-            toast.error(res?.data?.message);
-            break;
-          case 403:
-            toast.error(res?.data as unknown as string);
-            break;
-          default:
-            navigate(ROUTE_PATH.error404);
-        }
+        toast.success(res?.data?.message);
+        closeModal();
+        refreshList();
       },
+      onError: (error) => handleRequestStatusError(error, navigate),
     }
   );
 
