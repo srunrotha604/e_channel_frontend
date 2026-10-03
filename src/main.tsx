@@ -11,7 +11,6 @@ import './thems/css/tabler-vendors.min.css';
 import './thems/css/tabler.min.css';
 import './thems/js/demo.min.js';
 import './thems/js/tabler.js';
-// ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
