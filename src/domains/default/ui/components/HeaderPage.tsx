@@ -1,3 +1,4 @@
+import { useRequest } from 'ahooks';
 import React, { useState } from 'react';
 import {
   IoCallOutline,
@@ -17,11 +18,13 @@ import Modal, { useModal } from '../../../../components/common/modal';
 import ToggleSwitch from '../../../../components/common/ToggleSwitch';
 import { useAuth } from '../../../../context/AuthContext';
 import { ROUTE_PATH } from '../../../../utils/route-util';
+import { STORAGE_KEY } from '../../../../utils/storage-key';
 import {
   isNotificationSoundEnabled,
   setNotificationSoundEnabled,
 } from '../../../notification';
 import NotificationBell from '../../../notification/ui/components/NotificationBell';
+import { logout } from '../../interface-adapters';
 import { performLogout } from '../../use-cases';
 const HeaderPage = () => {
   const { user, clearUser, mode, application, passwordStatus } = useAuth();
@@ -31,10 +34,6 @@ const HeaderPage = () => {
     openModal: openLogoutModal,
     closeModal: closeLogoutModal,
   } = useModal();
-  const signOut = () => {
-    closeLogoutModal();
-    performLogout(clearUser);
-  };
   const toggleNotificationSound = () => {
     setSoundEnabled((current) => {
       const next = !current;
@@ -45,8 +44,27 @@ const HeaderPage = () => {
   const location = useLocation();
   const isAuthenticatePage = !location.pathname.includes(ROUTE_PATH.dashboard);
   const route = useNavigate();
+  const e_chanel_storage = localStorage.getItem(STORAGE_KEY);
+  const refreshToken = e_chanel_storage
+    ? JSON.parse(e_chanel_storage).refreshToken
+    : '';
+  const signOut = () => {
+    closeLogoutModal();
+    performLogout(clearUser);
+  };
+  const { run: runLogout, loading: loginLoading } = useRequest(logout, {
+    manual: true,
+    onSuccess: async (res) => {
+      console.log(res);
+      signOut();
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
   return (
-    <header className="sticky-top navbar-expand-lg  d-print-none">
+    <header className="navbar-expand-lg  d-print-none">
       {passwordStatus?.expiringSoon && (
         <div className="bg-warning">
           <div className="container-xl d-flex p-2 justify-content-center align-items-center gap-3">
@@ -214,7 +232,6 @@ const HeaderPage = () => {
           </div>
         </div>
       </div>
-
       <Modal
         ref={logoutModalRef}
         size="sm"
@@ -225,8 +242,18 @@ const HeaderPage = () => {
             <button className="btn btn-secondary" onClick={closeLogoutModal}>
               Cancel
             </button>
-            <button className="btn btn-danger" onClick={signOut}>
-              Logout
+            <button
+              className="btn btn-danger"
+              onClick={() => runLogout({ refreshToken: refreshToken })}
+            >
+              {loginLoading ? (
+                <span
+                  className="spinner-border spinner-border-sm me-2"
+                  role="status"
+                />
+              ) : (
+                'Logout'
+              )}
             </button>
           </>
         }

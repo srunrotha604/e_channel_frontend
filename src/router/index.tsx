@@ -4,6 +4,9 @@ import PrivateRoute from '../components/common/PrivateRoute';
 import { useAuth } from '../context/AuthContext';
 import Layout from '../layouts';
 import { ROUTE_PATH } from '../utils/route-util';
+const DevelopmentPage = lazy(
+  () => import('../domains/development/ui/pages/index')
+);
 const Login = lazy(() => import('../domains/default/ui/pages/LoginPage'));
 const HomePage = lazy(() => import('../domains/default/ui/pages/HomePage'));
 const LogoutPage = lazy(() => import('../domains/default/ui/pages/LogoutPage'));
@@ -172,6 +175,7 @@ export default function AllRoutes() {
           path={ROUTE_PATH.projectCreate}
           element={<ProjectCreatePage />}
         />
+        <Route path={ROUTE_PATH.development} element={<DevelopmentPage />} />
         <Route
           path={ROUTE_PATH.projectEdit(':key')}
           element={<ProjectEditPage />}

@@ -69,11 +69,13 @@ const ROUTE_PATH = {
   customerBatch: (key: string | number) => `/dashboard/customer/batch/${key}`,
 
   batchCreate: '/dashboard/batch/create',
+  development: '/dashboard/development',
 };
 
 const ROUTE_API = {
   root: import.meta.env.VITE_API_URL,
   login: '/auth/login',
+  logout: '/auth/logout',
   getLoginLogs: '/auth/login-history',
   getProfile: '/auth/profile',
   streamTicket: '/auth/stream-ticket',
