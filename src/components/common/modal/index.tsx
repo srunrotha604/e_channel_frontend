@@ -16,6 +16,8 @@ export interface ModalProps {
   bodyClassName?: string;
   headerClassName?: string;
   noTransition?: boolean;
+  showHeader?: boolean;
+  autoClose?: boolean;
 }
 // eslint-disable-next-line react/display-name
 const Modal = forwardRef<HTMLDivElement, ModalProps>(
@@ -30,6 +32,8 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
       bodyClassName = '',
       headerClassName = '',
       noTransition = false,
+      showHeader = true,
+      autoClose = false,
     },
     ref
   ) => {
@@ -39,6 +43,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
         ref={ref}
         tabIndex={-1}
         aria-hidden="true"
+        data-bs-backdrop={autoClose ? 'static' : true}
       >
         <div
           className={clsx(
@@ -51,17 +56,19 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
           )}
         >
           <div className="modal-content bg-white position-relative ">
-            <div className={clsx('modal-header', headerClassName)}>
-              <h5 className="modal-title">{title}</h5>
-              {closeButton && (
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              )}
-            </div>
+            {showHeader && (
+              <div className={clsx('modal-header', headerClassName)}>
+                <h5 className="modal-title">{title}</h5>
+                {closeButton && (
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                )}
+              </div>
+            )}
             <div className={clsx('modal-body ', bodyClassName)}>
               {content || children}
             </div>
