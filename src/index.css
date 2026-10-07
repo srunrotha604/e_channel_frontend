@@ -51,6 +51,10 @@
   color: #2d3194 !important;
 }
 
+.theme-dark .app-name-label {
+  color: #fff !important;
+}
+
 div.rounded {
   border-radius: 6px !important;
 }

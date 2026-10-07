@@ -98,7 +98,7 @@ const HeaderPage = () => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 p-0 pe-md-3">
+          <div className="navbar-brand d-none-navbar-horizontal pe-0 p-0 pe-md-3">
             <Link to={ROUTE_PATH.dashboard}>
               {isAuthenticatePage ? (
                 <img
@@ -124,7 +124,7 @@ const HeaderPage = () => {
                 <>
                   <div
                     style={{ marginLeft: '0.5rem', display: 'inline-block' }}
-                    className={'text-primary-blue'}
+                    className={'text-primary-blue app-name-label'}
                   >
                     {application?.applicationName || 'E-CHANNEL PORTAL'}
                   </div>
