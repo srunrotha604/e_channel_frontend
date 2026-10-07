@@ -23,7 +23,3 @@ dist-ssr
 *.sln
 *.sw?
 .env
-demo.md
-helper.md
-Delete.md
-CLAUDE.md

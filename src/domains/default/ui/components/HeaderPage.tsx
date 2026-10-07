@@ -26,6 +26,7 @@ import {
 import NotificationBell from '../../../notification/ui/components/NotificationBell';
 import { logout } from '../../interface-adapters';
 import { performLogout } from '../../use-cases';
+import ChangeTheme from './ChangeTheme';
 const HeaderPage = () => {
   const { user, clearUser, mode, application, passwordStatus } = useAuth();
   const [soundEnabled, setSoundEnabled] = useState(isNotificationSoundEnabled);
@@ -139,6 +140,7 @@ const HeaderPage = () => {
             </Link>
           </div>
           <div className="navbar-nav flex-row order-md-last">
+            <ChangeTheme />
             {user && <NotificationBell />}
             {user && (
               <div className="nav-item dropdown" role="button">
