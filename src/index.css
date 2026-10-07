@@ -55,6 +55,14 @@
   color: #fff !important;
 }
 
+.sidebar-nav-icon {
+  color: #1d273b;
+}
+
+.theme-dark .sidebar-nav-icon {
+  color: #fff !important;
+}
+
 div.rounded {
   border-radius: 6px !important;
 }

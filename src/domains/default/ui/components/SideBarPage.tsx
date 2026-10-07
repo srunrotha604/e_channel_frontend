@@ -111,7 +111,7 @@ const SideBarPage = () => {
               to={ROUTE_PATH.dashboard}
               end
               label="Home"
-              icon={<RxHome size={16} color="#1d273b" />}
+              icon={<RxHome size={16} className="sidebar-nav-icon" />}
             />
           )}
           <>
@@ -135,7 +135,7 @@ const SideBarPage = () => {
                   aria-label="Open user menu"
                 >
                   <span className="nav-link-icon d-none d-md-inline-block">
-                    <TbSettings size={16} color="#1d273b" />
+                    <TbSettings size={16} className="sidebar-nav-icon" />
                   </span>
                   <span className="nav-link-title">System setup</span>
                 </Link>
@@ -190,7 +190,7 @@ const SideBarPage = () => {
                   aria-label="Open user menu"
                 >
                   <span className="nav-link-icon d-none d-md-inline-block">
-                    <LuUserPlus size={16} color="#1d273b" />
+                    <LuUserPlus size={16} className="sidebar-nav-icon" />
                   </span>
                   <span className="nav-link-title">Customer</span>
                 </Link>
@@ -244,7 +244,7 @@ const SideBarPage = () => {
                   aria-label="Open user menu"
                 >
                   <span className="nav-link-icon d-none d-md-inline-block">
-                    <TbReport size={16} color="#1d273b" />
+                    <TbReport size={16} className="sidebar-nav-icon" />
                   </span>
                   <span className="nav-link-title">Report</span>
                 </Link>

@@ -346,5 +346,5 @@ code {
 }
 
 .defult-background {
-  background: white;
+  background: var(--tblr-bg-surface);
 }
