@@ -67,6 +67,18 @@
   color: #fff !important;
 }
 
+.theme-dark .transaction-table-head th {
+  color: #fff !important;
+}
+
+.theme-dark .transaction-table-cell-muted {
+  color: #fff !important;
+}
+
+.theme-dark .issue-status-btn {
+  filter: brightness(1.4);
+}
+
 div.rounded {
   border-radius: 6px !important;
 }

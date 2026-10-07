@@ -286,15 +286,25 @@ const CustomerTransactionTable = (
               >
                 {item?.batchNumber || 'N/A'}
               </td>
-              <td className="text-muted">
+              <td className="text-muted transaction-table-cell-muted">
                 {item.sureName + ' ' + item.firstName}
               </td>
-              <td className="text-muted">{item.projectName}</td>
-              <td className="text-muted">{item.productCode}</td>
-              <td className="text-muted">{formatDay(item.inputDateTime)}</td>
-              <td className="text-muted">{item.inputter}</td>
-              <td className="text-muted">{item.inputBranch}</td>
-              <td className="text-muted text-center">
+              <td className="text-muted transaction-table-cell-muted">
+                {item.projectName}
+              </td>
+              <td className="text-muted transaction-table-cell-muted">
+                {item.productCode}
+              </td>
+              <td className="text-muted transaction-table-cell-muted">
+                {formatDay(item.inputDateTime)}
+              </td>
+              <td className="text-muted transaction-table-cell-muted">
+                {item.inputter}
+              </td>
+              <td className="text-muted transaction-table-cell-muted">
+                {item.inputBranch}
+              </td>
+              <td className="text-muted transaction-table-cell-muted text-center">
                 <button
                   type="button"
                   onClick={(e) => {
@@ -302,7 +312,7 @@ const CustomerTransactionTable = (
                     handleIssueDateClick(e, item);
                   }}
                   disabled={isDisabled}
-                  className={`issue_btn_status btn ${
+                  className={`issue_btn_status issue-status-btn btn ${
                     isCompleted
                       ? 'btn-outline-success'
                       : hasIssueDate

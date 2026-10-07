@@ -472,7 +472,7 @@ const TransactionTableInner = <T extends TransactionLike>(
                 style={{ flex: 1 }}
               >
                 <table className="table  table-vcenter table-hover">
-                  <thead className="position-sticky top-0 ">
+                  <thead className="position-sticky top-0 transaction-table-head">
                     <tr>{renderTableHead(arrCustomer, tabStatus)}</tr>
                   </thead>
                   <tbody>
