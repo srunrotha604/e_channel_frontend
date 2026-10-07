@@ -485,7 +485,10 @@ const TransactionTableInner = <T extends TransactionLike>(
                     ) : null}
                     {loading ? (
                       <tr>
-                        <td colSpan={11} style={{ background: '#f8fafc' }}>
+                        <td
+                          colSpan={11}
+                          style={{ background: 'var(--tblr-bg-surface)' }}
+                        >
                           <div className="d-flex justify-content-center">
                             <span
                               className="spinner-border spinner-border-sm d-block mx-2"
