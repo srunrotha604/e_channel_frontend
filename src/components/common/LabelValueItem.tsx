@@ -15,7 +15,12 @@ export const LabelValueItem = ({
       <label htmlFor="name" className="control-label fs-5">
         {title}
       </label>
-      <div className={clsx('fs-4 mb-2 text-primary-blue', valueColorClassName)}>
+      <div
+        className={clsx(
+          'fs-4 mb-2 text-primary-blue label-value-item-value',
+          valueColorClassName
+        )}
+      >
         <strong>{value || 'N/A'}</strong>
       </div>
     </div>

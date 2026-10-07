@@ -7,6 +7,7 @@ import { NumericFormat, PatternFormat } from 'react-number-format';
 import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { useModal } from '../../../../../components/common/modal';
+import { selectCustomStyles } from '../../../../../components/common/reactSelectStyles';
 import CustomDatePicker from '../../../../../components/form/CustomDatePicker';
 import useMessage from '../../../../../hooks/useMessage';
 import { pluralize } from '../../../../../utils/pluralize';
@@ -362,6 +363,7 @@ const CustomerEdit = (props: CustomerEditProps) => {
                               }
                               getOptionLabel={(option) => option.nationality}
                               options={nation}
+                              styles={selectCustomStyles}
                             />
                           );
                         }}
@@ -434,6 +436,7 @@ const CustomerEdit = (props: CustomerEditProps) => {
                             }}
                             getOptionLabel={(option) => option.label ?? ''}
                             options={project}
+                            styles={selectCustomStyles}
                           />
                         )}
                       />
@@ -457,6 +460,7 @@ const CustomerEdit = (props: CustomerEditProps) => {
                             }}
                             getOptionLabel={(option) => option.label ?? ''}
                             options={policy}
+                            styles={selectCustomStyles}
                           />
                         )}
                       />

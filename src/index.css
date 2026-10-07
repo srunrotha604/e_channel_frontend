@@ -47,6 +47,10 @@
   background-color: #f4f4f4 !important;
 }
 
+.theme-dark .bg-light-gray {
+  background-color: var(--tblr-bg-surface) !important;
+}
+
 .text-primary-blue {
   color: #2d3194 !important;
 }
@@ -77,6 +81,18 @@
 
 .theme-dark .issue-status-btn {
   filter: brightness(1.4);
+}
+
+.transaction-number-label {
+  color: #363949;
+}
+
+.theme-dark .transaction-number-label {
+  color: #fff !important;
+}
+
+.theme-dark .label-value-item-value {
+  color: #fff !important;
 }
 
 div.rounded {

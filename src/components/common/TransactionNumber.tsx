@@ -15,11 +15,15 @@ const TransactionNumber = ({
   disableGutter = false,
 }: TransactionNumberProps) => {
   return (
-    <div className={clsx('fs-5 text-dark', { ['mb-2']: !disableGutter })}>
-      {!disableLabel ? label : ''}{' '}
+    <div
+      className={clsx('fs-5 transaction-number-label', {
+        ['mb-2']: !disableGutter,
+      })}
+    >
+      {!disableLabel ? label : ''}
       <b>
         <span
-          className="fs-4 text-primary-blue d-inline-block text-underline"
+          className="fs-4 text-primary-blue d-inline-block text-underline transaction-number-label"
           onClick={() => {
             toast.success(`${label} ${transactionNumber} Copied to Clipboard`);
             copyTextToClipboard(transactionNumber ?? '');
