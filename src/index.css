@@ -63,6 +63,10 @@
   color: #fff !important;
 }
 
+.theme-dark .sidebar-company-text {
+  color: #fff !important;
+}
+
 div.rounded {
   border-radius: 6px !important;
 }

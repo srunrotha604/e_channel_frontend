@@ -89,11 +89,11 @@ const SideBarPage = () => {
           />
         </div>
         <div>
-          <div className="mt-1 small text-muted">
+          <div className="mt-1 small text-muted sidebar-company-text">
             {companyDetails?.companyName}
           </div>
           <div
-            className="mt-1 small text-muted line-clamp-1 sidebar_branch_name"
+            className="mt-1 small text-muted line-clamp-1 sidebar_branch_name sidebar-company-text"
             title={BranchDetails?.branchName}
           >
             {BranchDetails?.branchName}
