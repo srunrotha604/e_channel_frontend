@@ -193,7 +193,7 @@ const ReviewStep = (props: ReviewStepProps) => {
                               </div>
                               <div className="col-12 overflow-auto ">
                                 <table className=" table table-vcenter card-table">
-                                  <thead>
+                                  <thead className="transaction-table-head">
                                     <tr>
                                       <th>#</th>
                                       <th>SURNAME</th>
@@ -213,19 +213,19 @@ const ReviewStep = (props: ReviewStepProps) => {
                                     {customerDataList.map((item, index) => (
                                       <tr key={index}>
                                         <td>{item.rowNumber}</td>
-                                        <td className="text-muted">
+                                        <td className="text-muted transaction-table-cell-muted">
                                           {item.surName}
                                         </td>
-                                        <td className="text-muted">
+                                        <td className="text-muted transaction-table-cell-muted">
                                           {item.firstName}
                                         </td>
-                                        <td className="text-muted">
+                                        <td className="text-muted transaction-table-cell-muted">
                                           {item.gender}
                                         </td>
-                                        <td className="text-muted">
+                                        <td className="text-muted transaction-table-cell-muted">
                                           {item.telNo}
                                         </td>
-                                        <td className="text-muted">
+                                        <td className="text-muted transaction-table-cell-muted">
                                           {item.dateOfBirth
                                             ? formatDay(
                                                 item.dateOfBirth,
@@ -234,37 +234,37 @@ const ReviewStep = (props: ReviewStepProps) => {
                                             : 'N/A'}
                                         </td>
                                         <td
-                                          className="text-dark"
+                                          className="review-table-highlight-cell"
                                           style={{
                                             background:
                                               duplicated?.nic?.get(
                                                 item.nicPassport
-                                              ) || 'white',
+                                              ) || 'var(--tblr-bg-surface)',
                                           }}
                                         >
                                           {item.nicPassport}
                                         </td>
-                                        <td className="text-muted">
+                                        <td className="text-muted transaction-table-cell-muted">
                                           {item.parentId || 'N/A'}
                                         </td>
                                         <td
-                                          className="text-dark"
+                                          className="review-table-highlight-cell"
                                           style={{
                                             background:
                                               duplicated?.customerId?.get(
                                                 item.customerId
-                                              ) || 'white',
+                                              ) || 'var(--tblr-bg-surface)',
                                           }}
                                         >
                                           {item.customerId}
                                         </td>
-                                        <td className="text-muted">
+                                        <td className="text-muted transaction-table-cell-muted">
                                           {item.nation}
                                         </td>
-                                        <td className="text-muted">
+                                        <td className="text-muted transaction-table-cell-muted">
                                           {item.physicalCard}
                                         </td>
-                                        <td className="text-muted">
+                                        <td className="text-muted transaction-table-cell-muted">
                                           {item.openingDate
                                             ? formatDay(
                                                 item.openingDate,
@@ -277,7 +277,7 @@ const ReviewStep = (props: ReviewStepProps) => {
                                   </tbody>
                                 </table>
                                 <div className="d-flex align-items-center mt-2">
-                                  <div className="m-0 text-muted">
+                                  <div className="m-0 text-muted transaction-table-cell-muted">
                                     Total <span>{arrList.length}</span> entries
                                   </div>
                                   <ReactPaginate

@@ -91,6 +91,20 @@
   color: #fff !important;
 }
 
+.review-table-highlight-cell {
+  color: #363949;
+}
+
+.theme-dark .review-table-highlight-cell {
+  color: #fff !important;
+}
+
+/* .page-link is Tabler's own pagination class, used the same way across
+   every list/table page — fixing it once here covers all of them. */
+.theme-dark .page-link {
+  color: #fff !important;
+}
+
 .theme-dark .label-value-item-value {
   color: #fff !important;
 }
