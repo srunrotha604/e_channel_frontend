@@ -4,6 +4,7 @@ import { NumericFormat, PatternFormat } from 'react-number-format';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { useModal } from '../../../../../components/common/modal';
+import { selectCustomStyles } from '../../../../../components/common/reactSelectStyles';
 import CustomDatePicker from '../../../../../components/form/CustomDatePicker';
 import { pluralize } from '../../../../../utils/pluralize';
 import type { ProjectPolicyOption } from '../../../entities';
@@ -301,6 +302,7 @@ const CustomerCreate = (props: CustomerCreateProps) => {
                           onChange={onChange}
                           getOptionLabel={(opt) => opt.nationality}
                           options={nation}
+                          styles={selectCustomStyles}
                         />
                       )}
                     />
@@ -338,6 +340,7 @@ const CustomerCreate = (props: CustomerCreateProps) => {
                             options={project}
                             getOptionLabel={(opt) => opt.label ?? ''}
                             getOptionValue={(opt) => String(opt.value)}
+                            styles={selectCustomStyles}
                             onChange={(val) => {
                               const policies = val?.policies ?? [];
                               setPolicy(policies);
@@ -367,6 +370,7 @@ const CustomerCreate = (props: CustomerCreateProps) => {
                             getOptionLabel={(opt) => opt.label ?? ''}
                             getOptionValue={(opt) => String(opt.value)}
                             isDisabled={!policy?.length}
+                            styles={selectCustomStyles}
                             onChange={(val) => {
                               setPolicyDetails(val);
                               onChange(val);
