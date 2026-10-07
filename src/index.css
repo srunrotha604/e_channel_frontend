@@ -71,21 +71,6 @@ div.rounded {
   border-radius: 6px !important;
 }
 
-/* make modal stack on top  */
-.modal:nth-of-type(even) {
-  z-index: 1052 !important;
-}
-.modal-backdrop.show:nth-of-type(even) {
-  z-index: 1051 !important;
-}
-
-.modal:nth-of-type(odd) {
-  z-index: 1053 !important;
-}
-.modal-backdrop.show:nth-of-type(odd) {
-  z-index: 1052 !important;
-}
-
 div.sticky-top {
   z-index: 1000 !important;
 }

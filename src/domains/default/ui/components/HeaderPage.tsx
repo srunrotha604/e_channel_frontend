@@ -10,10 +10,9 @@ import {
   IoVolumeHighOutline,
   IoWarningOutline,
 } from 'react-icons/io5';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import companyLogo from '../../../../assets/DaraInsurancePlc.png';
 import userIcon from '../../../../assets/default-user.png';
-import companyLogoFull from '../../../../assets/logo-full.jpg';
 import Modal, { useModal } from '../../../../components/common/modal';
 import ToggleSwitch from '../../../../components/common/ToggleSwitch';
 import { useAuth } from '../../../../context/AuthContext';
@@ -42,8 +41,6 @@ const HeaderPage = () => {
       return next;
     });
   };
-  const location = useLocation();
-  const isAuthenticatePage = !location.pathname.includes(ROUTE_PATH.dashboard);
   const route = useNavigate();
   const e_chanel_storage = localStorage.getItem(STORAGE_KEY);
   const refreshToken = e_chanel_storage
@@ -100,43 +97,29 @@ const HeaderPage = () => {
           </button>
           <div className="navbar-brand d-none-navbar-horizontal pe-0 p-0 pe-md-3">
             <Link to={ROUTE_PATH.dashboard}>
-              {isAuthenticatePage ? (
-                <img
-                  src={companyLogoFull}
-                  style={{
-                    width: '180px',
-                    height: '44px',
-                    objectFit: 'contain',
-                  }}
-                  alt={'logo'}
-                  className="navbar-brand-image"
-                />
-              ) : (
-                <img
-                  src={companyLogo}
-                  width={110}
-                  height={32}
-                  alt={'logo'}
-                  className="navbar-brand-image"
-                />
-              )}
-              {!isAuthenticatePage && (
-                <>
-                  <div
-                    style={{ marginLeft: '0.5rem', display: 'inline-block' }}
-                    className={'text-primary-blue app-name-label'}
-                  >
-                    {application?.applicationName || 'E-CHANNEL PORTAL'}
-                  </div>
-                  {mode != 'Production' ? (
-                    <span className="badge bg-indigo-lt mb-2 ml-5">
-                      {mode} mode
-                    </span>
-                  ) : (
-                    ''
-                  )}
-                </>
-              )}
+              <img
+                src={companyLogo}
+                width={110}
+                height={32}
+                alt={'logo'}
+                className="navbar-brand-image"
+              />
+
+              <>
+                <div
+                  style={{ marginLeft: '0.5rem', display: 'inline-block' }}
+                  className={'text-primary-blue app-name-label'}
+                >
+                  {application?.applicationName || 'E-CHANNEL PORTAL'}
+                </div>
+                {mode != 'Production' ? (
+                  <span className="badge bg-indigo-lt mb-2 ml-5">
+                    {mode} mode
+                  </span>
+                ) : (
+                  ''
+                )}
+              </>
             </Link>
           </div>
           <div className="navbar-nav flex-row order-md-last">
