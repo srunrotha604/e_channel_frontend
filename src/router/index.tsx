@@ -103,9 +103,6 @@ const ProductEditPage = lazy(
 const InsuranceProductPage = lazy(
   () => import('../domains/customer/ui/pages/InsuranceProductPage')
 );
-const CustomerPage = lazy(
-  () => import('../domains/customer/ui/pages/CustomerPage')
-);
 const CustomerCreatePage = lazy(
   () => import('../domains/customer/ui/pages/CustomerCreatePage')
 );
@@ -242,7 +239,6 @@ export default function AllRoutes() {
           path={ROUTE_PATH.customerCreate}
           element={<InsuranceProductPage />}
         />
-        <Route path={ROUTE_PATH.customer(':key')} element={<CustomerPage />} />
         <Route
           path={ROUTE_PATH.customerCreateWithProduct(':key')}
           element={<CustomerCreatePage />}
