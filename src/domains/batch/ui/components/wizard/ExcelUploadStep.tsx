@@ -11,6 +11,7 @@ import ExcelIcon from '../../../../../assets/Excel.svg';
 import ActionConfirmationModal from '../../../../../components/common/ActionConfirmationModal';
 import Button from '../../../../../components/common/Button';
 import { useModal } from '../../../../../components/common/modal/index';
+import { selectCustomStyles } from '../../../../../components/common/reactSelectStyles';
 import Image from '../../../../../components/Image';
 import { handleRequestStatusError } from '../../../../../utils/handleRequestStatusError';
 import type { ProjectPolicyOption } from '../../../../customer/entities';
@@ -173,6 +174,7 @@ const ExcelUploadStep = (props: ExcelUploadStepProps) => {
                               onChange(val);
                             }}
                             placeholder="Select a project..."
+                            styles={selectCustomStyles}
                           />
                         )}
                       />
@@ -203,6 +205,7 @@ const ExcelUploadStep = (props: ExcelUploadStepProps) => {
                                 ? 'Select a policy...'
                                 : 'Select a project first'
                             }
+                            styles={selectCustomStyles}
                           />
                         )}
                       />

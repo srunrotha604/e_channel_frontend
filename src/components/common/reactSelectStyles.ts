@@ -46,8 +46,8 @@ export const selectCustomStyles: StylesConfig<any, boolean> = {
     background: state.isSelected
       ? 'var(--tblr-primary)'
       : state.isFocused
-        ? 'var(--tblr-active-bg)'
-        : 'transparent',
+      ? 'var(--tblr-active-bg)'
+      : 'transparent',
     color: state.isSelected ? '#fff' : 'var(--tblr-body-color)',
     cursor: 'pointer',
   }),

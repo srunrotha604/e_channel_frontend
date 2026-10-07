@@ -19,6 +19,75 @@
   min-width: 400px;
 }
 
+/* react-date-range ships its own light-only theme with hardcoded hex
+   colors (no CSS variables, no dark mode support at all), so it needs
+   explicit overrides rather than inheriting Tabler's theme. */
+.theme-dark .custom_range_date_picker {
+  background-color: var(--tblr-bg-surface);
+}
+
+.theme-dark .custom_range_date_picker .rdrCalendarWrapper {
+  background-color: var(--tblr-bg-surface);
+  color: #fff;
+}
+
+.theme-dark .custom_range_date_picker .rdrMonthAndYearWrapper {
+  background-color: var(--tblr-bg-surface);
+}
+.theme-dark .custom_range_date_picker .rdrMonthPicker select,
+.theme-dark .custom_range_date_picker .rdrYearPicker select {
+  filter: invert(1);
+}
+
+.theme-dark .custom_range_date_picker .rdrDateDisplayWrapper {
+  background-color: var(--tblr-bg-surface);
+}
+
+.theme-dark .custom_range_date_picker .rdrDateDisplayItem {
+  background-color: var(--tblr-bg-forms);
+  border: 1px solid var(--tblr-border-color);
+}
+
+.theme-dark .date-range-clear-btn {
+  color: #fff;
+  opacity: 1 !important;
+}
+.date-range-clear-btn:hover {
+  opacity: 0.75 !important;
+}
+
+.theme-dark .date-range-clear-btn:hover {
+  opacity: 0.5 !important;
+}
+
+.theme-dark .custom_range_date_picker .rdrDateDisplayItem input {
+  color: #fff;
+}
+
+.theme-dark .custom_range_date_picker .rdrNextPrevButton {
+  background-color: var(--tblr-bg-forms);
+}
+
+.theme-dark .custom_range_date_picker .rdrDayNumber span {
+  color: #fff;
+}
+
+.theme-dark .custom_range_date_picker .rdrDayPassive .rdrDayNumber span {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.theme-dark .custom_range_date_picker .rdrWeekDay {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.theme-dark .custom_range_date_picker .rdrPprevButton i {
+  border-color: transparent #fff transparent transparent;
+}
+
+.theme-dark .custom_range_date_picker .rdrNextButton i {
+  border-color: transparent transparent transparent #fff;
+}
+
 .custom_date_picker .MuiPickersInputBase-root {
   height: 35px;
 }
