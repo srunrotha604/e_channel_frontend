@@ -1,10 +1,11 @@
 import JoditEditor from 'jodit-react';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
 import { NumericFormat } from 'react-number-format';
 import { Link } from 'react-router-dom';
 import Spinner, { useSpinner } from '../../../../components/common/Spinner';
+import { useTheme } from '../../../../context/ThemeContext';
 import useMessage from '../../../../hooks/useMessage';
 import { contactUs } from '../../../../utils/contact';
 import { delay } from '../../../../utils/delay';
@@ -19,6 +20,11 @@ const ContactUsPage = () => {
   const { control, handleSubmit, watch } = useForm<ContactUsFormValues>();
   const data = watch();
   const [success, setSuccess] = useState(false);
+  const { theme } = useTheme();
+  const joditConfig = useMemo(
+    () => ({ ...config, theme: theme === 'dark' ? 'dark' : 'default' }),
+    [theme]
+  );
   const { spinnerState, openSpinner, closeSpinner } = useSpinner();
   const { showErrorResponseMessage } = useMessage();
   const onSubmit = async (data: ContactUsFormValues) => {
@@ -143,7 +149,7 @@ const ContactUsPage = () => {
                           onChange={(newContent) => {
                             onChange(newContent);
                           }}
-                          config={config}
+                          config={joditConfig}
                         />
                       )}
                     ></Controller>
