@@ -6,7 +6,6 @@ import { IoAddSharp, IoChevronBack } from 'react-icons/io5';
 import { TfiReload } from 'react-icons/tfi';
 import ReactPaginate from 'react-paginate';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import Loading from '../../../../components/Loading';
 import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
@@ -122,7 +121,7 @@ const ProjectPage = () => {
               <div className="col-12">
                 <div className="card">
                   <table className="table table-vcenter card-table table-hover">
-                    <thead>
+                    <thead className="transaction-table-head">
                       <tr>
                         <th className="tb-w-10">#</th>
                         <th>PROJECT NAME</th>
@@ -136,7 +135,9 @@ const ProjectPage = () => {
                         <tr key={index}>
                           <td>{index + 1}</td>
 
-                          <td className="text-muted">{item.projectName}</td>
+                          <td className="text-muted transaction-table-cell-muted">
+                            {item.projectName}
+                          </td>
                           <td className="text-underline">
                             <Link
                               to={ROUTE_PATH.projectPolicy(
@@ -174,7 +175,7 @@ const ProjectPage = () => {
                   </table>
                 </div>
                 <div className="d-flex align-items-center mt-3">
-                  <p className="m-0 text-muted">
+                  <p className="m-0 text-muted transaction-table-cell-muted">
                     Total <span>{nf.format(filteredList.length)}</span> entries
                   </p>
                   <ReactPaginate

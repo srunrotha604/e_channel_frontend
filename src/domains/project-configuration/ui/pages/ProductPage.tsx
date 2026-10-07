@@ -201,7 +201,7 @@ const ProductPage = () => {
               <div className="col-12">
                 <div className="card">
                   <table className="table table-vcenter card-table table-hover">
-                    <thead>
+                    <thead className="transaction-table-head">
                       <tr>
                         <th className="tb-w-10">#</th>
                         <th>PRODUCT CODE</th>
@@ -215,11 +215,15 @@ const ProductPage = () => {
                       {pagedItems.map((item, index) => (
                         <tr key={index}>
                           <td>{index + 1}</td>
-                          <td className="text-muted">
+                          <td className="text-muted transaction-table-cell-muted">
                             {item.productsequenceCode}
                           </td>
-                          <td className="text-muted">{item.productCode}</td>
-                          <td className="text-muted">{item.productName}</td>
+                          <td className="text-muted transaction-table-cell-muted">
+                            {item.productCode}
+                          </td>
+                          <td className="text-muted transaction-table-cell-muted">
+                            {item.productName}
+                          </td>
                           {item.status === 'Active' ? (
                             <td className="text-primary">{item.status}</td>
                           ) : (
@@ -318,7 +322,7 @@ const ProductPage = () => {
                   </table>
                 </div>
                 <div className="d-flex align-items-center mt-3">
-                  <p className="m-0 text-muted">
+                  <p className="m-0 text-muted transaction-table-cell-muted">
                     Total <span>{nf.format(filteredList.length)}</span> entries
                   </p>
                   <ReactPaginate

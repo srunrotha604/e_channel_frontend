@@ -253,7 +253,7 @@ const ProjectPolicyPage = () => {
               <div className="col-12">
                 <div className="card">
                   <table className="table table-vcenter card-table table-hover">
-                    <thead>
+                    <thead className="transaction-table-head">
                       <tr>
                         <th className="tb-w-10">#</th>
                         <th>PROJECT NAME</th>
@@ -268,9 +268,15 @@ const ProjectPolicyPage = () => {
                         <tr key={index}>
                           <td>{index + 1}</td>
 
-                          <td className="text-muted">{item.projectLabel}</td>
-                          <td className="text-muted">{item.policyCode}</td>
-                          <td className="text-muted">{item.insuredName}</td>
+                          <td className="text-muted transaction-table-cell-muted">
+                            {item.projectLabel}
+                          </td>
+                          <td className="text-muted transaction-table-cell-muted">
+                            {item.policyCode}
+                          </td>
+                          <td className="text-muted transaction-table-cell-muted">
+                            {item.insuredName}
+                          </td>
                           {item.status === 'Active' ? (
                             <td className="text-primary">{item.status}</td>
                           ) : (
@@ -316,7 +322,7 @@ const ProjectPolicyPage = () => {
                   </table>
                 </div>
                 <div className="d-flex align-items-center mt-3">
-                  <p className="m-0 text-muted">
+                  <p className="m-0 text-muted transaction-table-cell-muted">
                     Total <span>{nf.format(filteredList.length)}</span> entries
                   </p>
                   <ReactPaginate

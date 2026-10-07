@@ -11,6 +11,7 @@ import {
   WindowedMenuList,
 } from 'react-windowed-select';
 import type { SelectOption } from '../../../../@type/report';
+import { selectCustomStyles } from '../../../../components/common/reactSelectStyles';
 import { handleRequestStatusError } from '../../../../utils/handleRequestStatusError';
 import { ROUTE_PATH } from '../../../../utils/route-util';
 import type { PolicyOption } from '../../entities';
@@ -166,6 +167,7 @@ const ProjectPolicyCreatePage = () => {
                         })}
                         onChange={productHandleChange}
                         required
+                        styles={selectCustomStyles}
                       />
                       <div className="invalid-feedback">
                         Please select Product!
@@ -185,6 +187,7 @@ const ProjectPolicyCreatePage = () => {
                         })}
                         onChange={policyHandleChange}
                         required
+                        styles={selectCustomStyles}
                       />
                       <div className="invalid-feedback">
                         Please select Policy!

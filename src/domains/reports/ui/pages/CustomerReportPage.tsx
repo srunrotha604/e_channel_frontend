@@ -369,7 +369,7 @@ const CustomerReportPage = () => {
             style={{ flexGrow: 1 }}
           >
             <table className="table table-vcenter card-table">
-              <thead className="position-sticky top-0 ">
+              <thead className="position-sticky top-0 transaction-table-head">
                 <tr>
                   <th>TRANSACTION</th>
                   <th>BATCH No.</th>
@@ -406,15 +406,25 @@ const CustomerReportPage = () => {
                     >
                       {item?.batchNumber || 'N/A'}
                     </td>
-                    <td className="text-muted">
+                    <td className="text-muted transaction-table-cell-muted">
                       {item.sureName + ' ' + item.firstName}
                     </td>
-                    <td className="text-muted">{item.projectCode}</td>
-                    <td className="text-muted">{item.productCode}</td>
-                    <td className="text-muted">{formatDay(item.inputDateTime)}</td>
-                    <td className="text-muted">{item.inputter}</td>
-                    <td className="text-muted">{item.inputBranch}</td>
-                    <td className="text-muted">
+                    <td className="text-muted transaction-table-cell-muted">
+                      {item.projectCode}
+                    </td>
+                    <td className="text-muted transaction-table-cell-muted">
+                      {item.productCode}
+                    </td>
+                    <td className="text-muted transaction-table-cell-muted">
+                      {formatDay(item.inputDateTime)}
+                    </td>
+                    <td className="text-muted transaction-table-cell-muted">
+                      {item.inputter}
+                    </td>
+                    <td className="text-muted transaction-table-cell-muted">
+                      {item.inputBranch}
+                    </td>
+                    <td className="text-muted transaction-table-cell-muted">
                       {item.customerIssueDate?.issueDate}
                     </td>
                     <td className={clsx('text-bold')}>
@@ -444,7 +454,7 @@ const CustomerReportPage = () => {
             </div>
             <div className="mx-4">
               {totalDocs > 0 && (
-                <span className="text-muted">
+                <span className="text-muted transaction-table-cell-muted">
                   {(Number(pageNum) - 1) * rowPerPage + 1} -{' '}
                   {Number(pageNum) * rowPerPage > totalDocs
                     ? totalDocs

@@ -232,7 +232,7 @@ const UserPage = () => {
               <div className="col-12">
                 <div className="card">
                   <table className="table table-vcenter card-table">
-                    <thead>
+                    <thead className="transaction-table-head">
                       <tr>
                         <th style={{ width: '5%' }}>#</th>
                         <th>USER NAME</th>
@@ -249,8 +249,12 @@ const UserPage = () => {
                       {pagedItems.map((item, index) => (
                         <tr key={index}>
                           <td>{index + 1}</td>
-                          <td className="text-muted">{item.userName}</td>
-                          <td className="text-muted">{item.email}</td>
+                          <td className="text-muted transaction-table-cell-muted">
+                            {item.userName}
+                          </td>
+                          <td className="text-muted transaction-table-cell-muted">
+                            {item.email}
+                          </td>
                           <td className="cursor-pointer">
                             <AddPhoneNumberModal
                               item={item}
@@ -258,11 +262,15 @@ const UserPage = () => {
                               onSubmit={addUserPhoneNumber}
                             />
                           </td>
-                          <td className="text-muted">
+                          <td className="text-muted transaction-table-cell-muted">
                             {item.givenName} {item.sureName}
                           </td>
-                          <td className="text-muted">{item.roleName}</td>
-                          <td className="text-muted">{item.userType}</td>
+                          <td className="text-muted transaction-table-cell-muted">
+                            {item.roleName}
+                          </td>
+                          <td className="text-muted transaction-table-cell-muted">
+                            {item.userType}
+                          </td>
                           <TableCellStatusCodeHandle status={item?.status} />
                           <TableCellAction>
                             <Link
@@ -302,7 +310,7 @@ const UserPage = () => {
                   </table>
                 </div>
                 <div className="d-flex align-items-center mt-2">
-                  <p className="m-0 text-muted">
+                  <p className="m-0 text-muted transaction-table-cell-muted">
                     Total <span>{filteredList.length}</span> entries
                   </p>
                   <ReactPaginate
