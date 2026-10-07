@@ -12,6 +12,7 @@ import type {
 } from '../../../../@type/report';
 import '../../../../assets/style/custom_style.css';
 import Modal, { useModal } from '../../../../components/common/modal';
+import { selectCustomStyles } from '../../../../components/common/reactSelectStyles';
 import { useAuth } from '../../../../context/AuthContext';
 import { useModulePermission } from '../../../../context/module/ModuleContext';
 import { ROUTE_PATH } from '../../../../utils/route-util';
@@ -317,8 +318,11 @@ const SideBarPage = () => {
       <Modal ref={modalRef} title={'Switch branch'}>
         <div className="mb-3">
           <label className="form-label required">Company</label>
-          <Select
-            styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+          <Select<CompanyBranchOption, false>
+            styles={{
+              ...selectCustomStyles,
+              menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+            }}
             menuPortalTarget={document.body}
             value={companyOptions.find(function (option) {
               return option.value === selectedCompany;
@@ -330,8 +334,11 @@ const SideBarPage = () => {
         </div>
         <div className="mb-2">
           <label className="form-label required">Branch</label>
-          <Select
-            styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+          <Select<SelectOption, false>
+            styles={{
+              ...selectCustomStyles,
+              menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+            }}
             menuPortalTarget={document.body}
             value={optionBranch.find(function (option) {
               return option.value === selectedBranch;

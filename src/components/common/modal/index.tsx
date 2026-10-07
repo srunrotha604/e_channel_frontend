@@ -55,7 +55,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
             }
           )}
         >
-          <div className="modal-content bg-white position-relative ">
+          <div className="modal-content position-relative">
             {showHeader && (
               <div className={clsx('modal-header', headerClassName)}>
                 <h5 className="modal-title">{title}</h5>
