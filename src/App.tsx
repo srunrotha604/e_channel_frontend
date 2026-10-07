@@ -2,11 +2,12 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import './App.css';
 import AuthContextProvider from './context/AuthContext';
+import ThemeContextProvider from './context/ThemeContext';
 import AllRoutes from './router/index.tsx';
 
 function App() {
   return (
-    <>
+    <ThemeContextProvider>
       <ToastContainer
         {...{
           position: 'top-right',
@@ -27,7 +28,7 @@ function App() {
           <AllRoutes />
         </AuthContextProvider>
       </Router>
-    </>
+    </ThemeContextProvider>
   );
 }
 

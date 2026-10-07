@@ -4,8 +4,8 @@ import { linkifyText } from '../../../../utils/linkify';
 const VersionHistoryPage = () => {
   const { version, loading } = useAuth();
   return (
-    <div className="container p-4 mt-3 defult-background">
-      <div className="d-flex justify-content-between mb-3 align-items-center">
+    <div className="container p-4 mt-3 defult-background ">
+      <div className="d-flex mx-auto justify-content-between mb-3 align-items-center">
         <h2>
           Latest release - {version?.version} -
           {dayjs(version?.releaseDate, 'DD/MM/YYYY HH:mm:ss').format(
