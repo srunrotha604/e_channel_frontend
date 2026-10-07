@@ -270,13 +270,21 @@ const CustomerDeletePage = () => {
                       transactionNumber={item.transactionNumber}
                     />
                   </td>
-                  <td className="text-muted">
+                  <td className="text-muted transaction-table-cell-muted">
                     {item.sureName + ' ' + item.firstName}
                   </td>
-                  <td className="text-muted">{item.projectName}</td>
-                  <td className="text-muted">{item.productCode}</td>
-                  <td className="text-muted">{item.inputter}</td>
-                  <td className="text-muted">{item.inputBranch}</td>
+                  <td className="text-muted transaction-table-cell-muted">
+                    {item.projectName}
+                  </td>
+                  <td className="text-muted transaction-table-cell-muted">
+                    {item.productCode}
+                  </td>
+                  <td className="text-muted transaction-table-cell-muted">
+                    {item.inputter}
+                  </td>
+                  <td className="text-muted transaction-table-cell-muted">
+                    {item.inputBranch}
+                  </td>
                 </>
               );
             }}
