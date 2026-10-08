@@ -71,6 +71,16 @@
   color: #fff !important;
 }
 
+.transaction-table-head {
+  z-index: 1;
+}
+
+.transaction-table-head th {
+  background: var(--tblr-bg-surface) !important;
+  position: sticky;
+  top: 0;
+}
+
 .theme-dark .transaction-table-head th {
   color: #fff !important;
 }
