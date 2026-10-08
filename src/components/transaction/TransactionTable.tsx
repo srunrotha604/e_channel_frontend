@@ -543,7 +543,7 @@ const TransactionTableInner = <T extends TransactionLike>(
                 </div>
                 <div className="mx-4">
                   {!!totalDocs && totalDocs > 0 && (
-                    <span className="text-muted">
+                    <span className="text-muted transaction-table-cell-muted">
                       {(Number(pageNum) - 1) * rowPerPage + 1} -{' '}
                       {Number(pageNum) * rowPerPage > totalDocs
                         ? totalDocs
