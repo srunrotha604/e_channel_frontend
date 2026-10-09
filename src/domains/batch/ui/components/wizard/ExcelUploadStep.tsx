@@ -13,12 +13,13 @@ import Button from '../../../../../components/common/Button';
 import { useModal } from '../../../../../components/common/modal/index';
 import { selectCustomStyles } from '../../../../../components/common/reactSelectStyles';
 import Image from '../../../../../components/Image';
+import { getEnv } from '../../../../../utils/env';
 import { handleRequestStatusError } from '../../../../../utils/handleRequestStatusError';
 import type { ProjectPolicyOption } from '../../../../customer/entities';
 import type { BatchCustomerListResult } from '../../../entities';
 import { uploadBatchExcel } from '../../../interface-adapters';
 const downloadUrl =
-  import.meta.env.VITE_API_URL + '/operation-customer/batch/download';
+  getEnv('VITE_API_URL') + '/operation-customer/batch/download';
 type PolicyOption = NonNullable<ProjectPolicyOption['policies']>[number];
 interface ExcelUploadStepProps {
   project: ProjectPolicyOption[];

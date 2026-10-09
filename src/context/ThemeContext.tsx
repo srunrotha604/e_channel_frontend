@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { getEnv } from '../utils/env';
 import { getPersistedState, persistState } from '../utils/persist-util';
 
 export type Theme = 'light' | 'dark';
@@ -16,7 +17,7 @@ const ThemeContext = createContext<ThemeContextValue>({
 });
 
 const readInitialTheme = (): Theme => {
-  const persisted = getPersistedState(import.meta.env.VITE_THEME);
+  const persisted = getPersistedState(getEnv('VITE_THEME'));
   if (persisted === 'dark' || persisted === 'light') {
     return persisted;
   }
@@ -34,7 +35,7 @@ const ThemeContextProvider = ({ children }: ThemeContextProviderProps) => {
   const [theme, setThemeState] = useState<Theme>(readInitialTheme);
 
   const setTheme = (next: Theme) => {
-    persistState(import.meta.env.VITE_THEME, next);
+    persistState(getEnv('VITE_THEME'), next);
     setThemeState(next);
   };
 

@@ -1,6 +1,7 @@
 import type { AxiosError, AxiosRequestConfig, ResponseType } from 'axios';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { getEnv } from './env';
 import { ROUTE_API, ROUTE_PATH } from './route-util';
 import { STORAGE_KEY } from './storage-key';
 
@@ -81,7 +82,7 @@ const refreshToken = async () => {
   };
 
   const res = await axios<RefreshTokenResponse>({
-    url: import.meta.env.VITE_API_URL + ROUTE_API.loginRefreshToken,
+    url: getEnv('VITE_API_URL') + ROUTE_API.loginRefreshToken,
     method: 'POST',
     data: data,
     headers: buildHeaders(

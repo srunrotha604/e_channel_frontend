@@ -1,3 +1,5 @@
+import { getEnv } from './env';
+
 const ROUTE_PATH = {
   root: '/',
   login: '/login',
@@ -73,7 +75,7 @@ const ROUTE_PATH = {
 };
 
 const ROUTE_API = {
-  root: import.meta.env.VITE_API_URL,
+  root: getEnv('VITE_API_URL') ?? '',
   login: '/auth/login',
   logout: '/auth/logout',
   getLoginLogs: '/auth/login-history',

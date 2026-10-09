@@ -4,6 +4,7 @@ import './App.css';
 import AuthContextProvider from './context/AuthContext';
 import ThemeContextProvider from './context/ThemeContext';
 import AllRoutes from './router/index.tsx';
+import { getEnv } from './utils/env.ts';
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
         }}
       />
       <Router
-        basename={import.meta.env.VITE_BASE_URL}
+        basename={getEnv('VITE_BASE_URL')}
         future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
       >
         <AuthContextProvider>
